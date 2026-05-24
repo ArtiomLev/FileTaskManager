@@ -1,0 +1,62 @@
+.task-form {
+    display: block;
+    overflow: hidden;
+
+    width: fit-content;
+
+    margin: 10px;
+    padding: 0;
+    box-sizing: border-box;
+
+    background-color: #2b7a78;
+    border: #2b7a78 solid 4px;
+    border-radius: 5px;
+}
+
+.task-form>span {
+    display: block;
+    width: 100%;
+
+    margin: 0 0 5px;
+
+    text-align: center;
+}
+
+.task-form>form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    gap: 5px;
+
+    padding: 5px;
+    border-radius: 2px;
+
+    background: #3aafa9;
+}
+
+.task-form>form>label {
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px;
+
+    border-radius: 5px;
+    background: #feffff;
+}
+
+.task-form>form input[type="text"] {
+    outline: none;
+    border: none;
+    border-radius: 2px;
+}
+
+.task-form>form input[type="text"]:invalid {
+    border: 2px solid red;
+}
+
+.task-form>form input[type="text"]:valid {
+    border: 2px solid green;
+}
+
+
