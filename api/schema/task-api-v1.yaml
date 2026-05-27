@@ -1,0 +1,468 @@
+openapi: 3.1.0
+info:
+  title: Менеджер задач лазерного станка
+  description: Управление задачами для лазерного раскроечного станка в виде набора файлов управляющих программ
+  version: 0.1.0
+servers:
+  - url: 'http://localhost:8080/api/v1'
+    description: Local dev
+
+# ==================================================================================================
+
+paths:
+  /managers:
+    get:
+      summary: Получение списка менеджеров
+      description: Возвращает список всех менеджеров задач сервера
+      tags: [ Managers ]
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Managers'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /managers/{managerName}/tasks:
+    parameters:
+      - name: managerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Адресное имя менеджера
+    get:
+      summary: Получение списка задач
+      description: Возвращает список задач менеджера
+      tags: [ Tasks ]
+      parameters:
+        - name: contract
+          in: query
+          schema:
+            type: string
+          required: false
+          description: Фильтр по номеру договора
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ active, completed ]
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      summary: Создание новой задачи
+      description: Создаёт новую активную задачу в менеджере задач
+      tags: [ Tasks ]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Задача успешно создана
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: URL созданной задачи
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithFiles'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+
+  /managers/{managerName}/tasks/{contract}/{name}:
+    parameters:
+      - name: managerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Адресное имя менеджера
+      - name: contract
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Имя договора
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Имя задания
+    get:
+      summary: Получение задачи
+      description: Возвращает объект задачи вместе со списком файлов
+      tags: [ Tasks ]
+      responses:
+        '200':
+          description: Задача найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithFiles'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    patch:
+      summary: Частичное обновление задачи
+      description: Обновляет одно или несколько полей задачи
+      tags: [ Tasks ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Задача обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWithFiles'
+        '400':
+          description: Некорректные данные
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Задача не найдена
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Путь уже существует или недопустимая операция
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      summary: Удалить задачу
+      description: Удаляет все файлы задачи вместе с папкой
+      tags: [ Tasks ]
+      responses:
+        '204':
+          description: Задача удалена
+        '404':
+          description: Задача не найдена
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /managers/{managerName}/tasks/{contract}/{name}/{filename}:
+    parameters:
+      - name: managerName
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Адресное имя менеджера
+      - name: contract
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Имя договора
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Имя задания
+      - name: filename
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Имя файла
+    get:
+      summary: Получение файла
+      description: Возвращает файл с соответствующим названием из папки задания
+      tags: [ Files ]
+      responses:
+        '200':
+          description: Файл найден
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Задача или файл не найдены
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    post:
+      summary: Загрузка файла
+      description: Загрузка файла в папку задачи
+      tags: [ Files ]
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Файл успешно загружен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Files'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    put:
+      summary: Загрузка файла с заменой
+      description: Загрузка файла в папку задачи. Заменяет существующий файл.
+      tags: [ Files ]
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Файл успешно загружен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Files'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      summary: Удалить файл
+      description: Удаляет файл с переданным именем из папки задачи
+      tags: [ Files ]
+      responses:
+        '204':
+          description: Файл удалён
+        '404':
+          description: Файл не найден
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+# ==================================================================================================
+
+components:
+  schemas:
+    Manager:
+      description: Менеджер задач
+      type: object
+      required:
+        - name
+        - display_name
+      properties:
+        name:
+          type: string
+          description: Адресное имя менеджера
+          examples:
+            - 'tube'
+            - 'panel'
+        display_name:
+          type: string
+          description: Отображаемое имя менеджера
+          examples:
+            - 'Труборез'
+            - 'Раскрой'
+
+    Managers:
+      description: Список менеджеров задач
+      type: array
+      items:
+        $ref: '#/components/schemas/Manager'
+
+    Task:
+      description: Задача
+      type: object
+      required:
+        - contract
+        - name
+        - completed
+        - updated
+      properties:
+        contract:
+          type: string
+          description: Договор
+          examples:
+            - '412-26 Бак'
+        name:
+          type: string
+          description: Имя задания
+          examples:
+            - 'Обечайка 1'
+        completed:
+          type: boolean
+          description: Статус задания
+          examples:
+            - false
+        updated:
+          type: string
+          format: date-time
+          description: Время последнего обновления
+
+    Tasks:
+      description: Список заданий
+      type: array
+      items:
+        $ref: '#/components/schemas/Task'
+
+    Files:
+      description: Список файлов задания
+      type: array
+      items:
+        type: string
+
+    TaskWithFiles:
+      allOf:
+        - $ref: '#/components/schemas/Task'
+        - type: object
+          properties:
+            files:
+              $ref: '#/components/schemas/Files'
+          required:
+            - files
+
+    TaskCreate:
+      type: object
+      required:
+        - contract
+        - name
+        - files
+      properties:
+        contract:
+          type: string
+          description: Номер договора
+          examples: [ "412-26 Бак" ]
+        name:
+          type: string
+          description: Имя задачи
+          examples: [ "Обечайка 1" ]
+        files:
+          type: array
+          items:
+            type: string
+            format: binary
+          description: Файлы задачи
+
+    TaskUpdate:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          description: Статус задачи
+        name:
+          type: string
+          description: Имя задачи
+        contract:
+          type: string
+          description: Договор задачи
+
+    ErrorResponse:
+      description: Сообщение об ошибке
+      type: object
+      required:
+        - code
+        - message
+        - status
+      properties:
+        code:
+          type: string
+          enum:
+            - BAD_REQUEST
+            - NOT_FOUND
+            - CONFLICT
+            - INTERNAL_ERROR
+          description: Код ошибки
+        message:
+          type: string
+          description: Текст ошибки
+        status:
+          type: integer
+          description: HTTP статус-код ошибки
+
+
+  # --------------------------------------------------------------------------------------------------
+
+  responses:
+    BadRequest:
+      description: Неверный запрос
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: BAD_REQUEST
+            message: "Field 'contract' cannot be empty"
+            status: 400
+
+    NotFound:
+      description: Ресурс не найден
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: NOT_FOUND
+            message: "Task not found"
+            status: 404
+
+    Conflict:
+      description: Конфликт состояния (уже существует, недопустимая операция)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: CONFLICT
+            message: "Task already exists"
+            status: 409
+
+    InternalError:
+      description: Внутренняя ошибка сервера
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: INTERNAL_ERROR
+            message: "Failed to read filesystem"
+            status: 500
+
+    Error:
+      description: Any error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+
