@@ -11,4 +11,7 @@ var (
 	ErrCannotMoveTempToTask = errors.New("cannot move temp files to task directory")
 	ErrTaskCompleted        = errors.New("task already completed")
 	ErrTaskActive           = errors.New("task is active")
+	ErrFileExists           = errors.New("file already exists")
+	ErrFileNotExists        = errors.New("file does not exist")
+	ErrFileName             = errors.New("invalid or empty filename")
 )
