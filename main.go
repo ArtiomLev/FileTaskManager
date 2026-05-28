@@ -1,8 +1,8 @@
 package main
 
 import (
-	"LaserTaskSystem/config"
-	"LaserTaskSystem/task"
+	"LaserTaskSystem/internal/config"
+	"LaserTaskSystem/internal/task"
 	"embed"
 	"encoding/json"
 	"errors"
