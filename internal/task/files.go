@@ -94,6 +94,7 @@ func (tsk *Task) AddFile(name string, reader io.Reader, replace bool) error {
 	}
 
 	success = true
+	tsk.Updated = time.Now().UTC()
 	return nil
 }
 
@@ -113,6 +114,8 @@ func (tsk *Task) RemoveFile(name string) error {
 		}
 		return err
 	}
+
+	tsk.Updated = time.Now().UTC()
 	return nil
 }
 
