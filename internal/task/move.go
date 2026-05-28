@@ -36,6 +36,12 @@ func (tsk *Task) Move(contract, name string) error {
 		newPath = filepath.Join(tsk.TaskManager.ActivePath, contract, name)
 	}
 
+	// Create target directory
+	err = os.MkdirAll(filepath.Dir(newPath), 0755)
+	if err != nil {
+		return err
+	}
+
 	// Move directory
 	err = os.Rename(oldPath, newPath)
 	if err != nil {
