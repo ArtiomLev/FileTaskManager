@@ -47,34 +47,51 @@ func (m *Manager) listTasks(rootPath string, completed bool) ([]Task, error) {
 
 		// Get tasks in contract
 		contractPath := filepath.Join(rootPath, contractName)
-		contractTasks, err := os.ReadDir(contractPath)
+		contractTasks, err := m.listTasksContract(contractPath, contractName, completed)
 		if err != nil {
 			return nil, fmt.Errorf("failed to list tasks: %w", err)
 		}
 
-		// Process tasks in contract
-		for _, contractTask := range contractTasks {
-			// Check is not dir
-			if !contractTask.IsDir() {
-				continue
-			}
+		// Append contract tasks to all tasks
+		tasks = append(tasks, contractTasks...)
+	}
 
-			// Get task info
-			taskName := contractTask.Name()
-			taskDirInfo, err := contractTask.Info()
-			if err != nil {
-				return nil, fmt.Errorf("failed to get task info: %w", err)
-			}
-			taskUpdated := taskDirInfo.ModTime().UTC()
+	return tasks, nil
+}
 
-			tasks = append(tasks, Task{
-				TaskManager:    m,
-				ContractNumber: contractName,
-				Name:           taskName,
-				Completed:      completed,
-				Updated:        taskUpdated,
-			})
+func (m *Manager) listTasksContract(contractPath, contractName string, completed bool) ([]Task, error) {
+	var tasks []Task
+
+	contractTasks, err := os.ReadDir(contractPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return tasks, nil
 		}
+		return nil, fmt.Errorf("failed to list tasks: %w", err)
+	}
+
+	// Process tasks in contract
+	for _, contractTask := range contractTasks {
+		// Check is not dir
+		if !contractTask.IsDir() {
+			continue
+		}
+
+		// Get task info
+		taskName := contractTask.Name()
+		taskDirInfo, err := contractTask.Info()
+		if err != nil {
+			return nil, fmt.Errorf("failed to get task info: %w", err)
+		}
+		taskUpdated := taskDirInfo.ModTime().UTC()
+
+		tasks = append(tasks, Task{
+			TaskManager:    m,
+			ContractNumber: contractName,
+			Name:           taskName,
+			Completed:      completed,
+			Updated:        taskUpdated,
+		})
 	}
 
 	return tasks, nil
@@ -94,6 +111,28 @@ func (m *Manager) ListAll() ([]Task, error) {
 		return nil, fmt.Errorf("failed to list tasks: %w", err)
 	}
 	completed, err := m.ListCompleted()
+	if err != nil {
+		return nil, fmt.Errorf("failed to list tasks: %w", err)
+	}
+	return append(active, completed...), nil
+}
+
+func (m *Manager) ListActiveContract(contract string) ([]Task, error) {
+	contractPath := filepath.Join(m.ActivePath, contract)
+	return m.listTasksContract(contractPath, contract, false)
+}
+
+func (m *Manager) ListCompletedContract(contract string) ([]Task, error) {
+	contractPath := filepath.Join(m.CompletePath, contract)
+	return m.listTasksContract(contractPath, contract, true)
+}
+
+func (m *Manager) ListAllContract(contract string) ([]Task, error) {
+	active, err := m.ListActiveContract(contract)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list tasks: %w", err)
+	}
+	completed, err := m.ListCompletedContract(contract)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list tasks: %w", err)
 	}
