@@ -530,6 +530,10 @@ type TaskFilePostInternalServerError ErrorResponse
 
 func (*TaskFilePostInternalServerError) taskFilePostRes() {}
 
+type TaskFilePostNotFound ErrorResponse
+
+func (*TaskFilePostNotFound) taskFilePostRes() {}
+
 type TaskFilePostReq struct {
 	Data io.Reader
 }
@@ -551,6 +555,10 @@ func (*TaskFilePutBadRequest) taskFilePutRes() {}
 type TaskFilePutInternalServerError ErrorResponse
 
 func (*TaskFilePutInternalServerError) taskFilePutRes() {}
+
+type TaskFilePutNotFound ErrorResponse
+
+func (*TaskFilePutNotFound) taskFilePutRes() {}
 
 type TaskFilePutReq struct {
 	Data io.Reader
@@ -605,6 +613,10 @@ func (*TaskPostConflict) taskPostRes() {}
 type TaskPostInternalServerError ErrorResponse
 
 func (*TaskPostInternalServerError) taskPostRes() {}
+
+type TaskPostNotFound ErrorResponse
+
+func (*TaskPostNotFound) taskPostRes() {}
 
 // Ref: #/components/schemas/TaskUpdate
 type TaskUpdate struct {

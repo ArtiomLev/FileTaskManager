@@ -180,6 +180,14 @@ func (s *TaskFilePostInternalServerError) Validate() error {
 	return nil
 }
 
+func (s *TaskFilePostNotFound) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *TaskFilePutBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
@@ -189,6 +197,14 @@ func (s *TaskFilePutBadRequest) Validate() error {
 }
 
 func (s *TaskFilePutInternalServerError) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *TaskFilePutNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -269,6 +285,14 @@ func (s *TaskPostConflict) Validate() error {
 }
 
 func (s *TaskPostInternalServerError) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *TaskPostNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
