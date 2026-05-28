@@ -616,6 +616,44 @@ func (s *Task) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes TaskDeleteBadRequest as json.
+func (s *TaskDeleteBadRequest) Encode(e *jx.Encoder) {
+	unwrapped := (*ErrorResponse)(s)
+
+	unwrapped.Encode(e)
+}
+
+// Decode decodes TaskDeleteBadRequest from json.
+func (s *TaskDeleteBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode TaskDeleteBadRequest to nil")
+	}
+	var unwrapped ErrorResponse
+	if err := func() error {
+		if err := unwrapped.Decode(d); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = TaskDeleteBadRequest(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *TaskDeleteBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *TaskDeleteBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes TaskDeleteInternalServerError as json.
 func (s *TaskDeleteInternalServerError) Encode(e *jx.Encoder) {
 	unwrapped := (*ErrorResponse)(s)
@@ -692,6 +730,44 @@ func (s *TaskDeleteNotFound) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes TaskFileDeleteBadRequest as json.
+func (s *TaskFileDeleteBadRequest) Encode(e *jx.Encoder) {
+	unwrapped := (*ErrorResponse)(s)
+
+	unwrapped.Encode(e)
+}
+
+// Decode decodes TaskFileDeleteBadRequest from json.
+func (s *TaskFileDeleteBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode TaskFileDeleteBadRequest to nil")
+	}
+	var unwrapped ErrorResponse
+	if err := func() error {
+		if err := unwrapped.Decode(d); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = TaskFileDeleteBadRequest(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *TaskFileDeleteBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *TaskFileDeleteBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes TaskFileDeleteInternalServerError as json.
 func (s *TaskFileDeleteInternalServerError) Encode(e *jx.Encoder) {
 	unwrapped := (*ErrorResponse)(s)
@@ -764,6 +840,44 @@ func (s *TaskFileDeleteNotFound) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *TaskFileDeleteNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes TaskFileGetBadRequest as json.
+func (s *TaskFileGetBadRequest) Encode(e *jx.Encoder) {
+	unwrapped := (*ErrorResponse)(s)
+
+	unwrapped.Encode(e)
+}
+
+// Decode decodes TaskFileGetBadRequest from json.
+func (s *TaskFileGetBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode TaskFileGetBadRequest to nil")
+	}
+	var unwrapped ErrorResponse
+	if err := func() error {
+		if err := unwrapped.Decode(d); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = TaskFileGetBadRequest(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *TaskFileGetBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *TaskFileGetBadRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1030,6 +1144,44 @@ func (s *TaskFilePutInternalServerError) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *TaskFilePutInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes TaskGetBadRequest as json.
+func (s *TaskGetBadRequest) Encode(e *jx.Encoder) {
+	unwrapped := (*ErrorResponse)(s)
+
+	unwrapped.Encode(e)
+}
+
+// Decode decodes TaskGetBadRequest from json.
+func (s *TaskGetBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode TaskGetBadRequest to nil")
+	}
+	var unwrapped ErrorResponse
+	if err := func() error {
+		if err := unwrapped.Decode(d); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = TaskGetBadRequest(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *TaskGetBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *TaskGetBadRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

@@ -56,6 +56,19 @@ func encodeTaskDeleteResponse(response TaskDeleteRes, w http.ResponseWriter, spa
 
 		return nil
 
+	case *TaskDeleteBadRequest:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(400)
+		span.SetStatus(codes.Error, http.StatusText(400))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
 	case *TaskDeleteNotFound:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
@@ -92,6 +105,19 @@ func encodeTaskFileDeleteResponse(response TaskFileDeleteRes, w http.ResponseWri
 	case *TaskFileDeleteNoContent:
 		w.WriteHeader(204)
 		span.SetStatus(codes.Ok, http.StatusText(204))
+
+		return nil
+
+	case *TaskFileDeleteBadRequest:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(400)
+		span.SetStatus(codes.Error, http.StatusText(400))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 
 		return nil
 
@@ -138,6 +164,19 @@ func encodeTaskFileGetResponse(response TaskFileGetRes, w http.ResponseWriter, s
 			defer closer.Close()
 		}
 		if _, err := io.Copy(writer, response); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *TaskFileGetBadRequest:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(400)
+		span.SetStatus(codes.Error, http.StatusText(400))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
 			return errors.Wrap(err, "write")
 		}
 
@@ -285,6 +324,19 @@ func encodeTaskGetResponse(response TaskGetRes, w http.ResponseWriter, span trac
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
 		span.SetStatus(codes.Ok, http.StatusText(200))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *TaskGetBadRequest:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(400)
+		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)

@@ -84,6 +84,14 @@ func (s Managers) Validate() error {
 	return nil
 }
 
+func (s *TaskDeleteBadRequest) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *TaskDeleteInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
@@ -100,6 +108,14 @@ func (s *TaskDeleteNotFound) Validate() error {
 	return nil
 }
 
+func (s *TaskFileDeleteBadRequest) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *TaskFileDeleteInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
@@ -109,6 +125,14 @@ func (s *TaskFileDeleteInternalServerError) Validate() error {
 }
 
 func (s *TaskFileDeleteNotFound) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *TaskFileGetBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -165,6 +189,14 @@ func (s *TaskFilePutBadRequest) Validate() error {
 }
 
 func (s *TaskFilePutInternalServerError) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *TaskGetBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err

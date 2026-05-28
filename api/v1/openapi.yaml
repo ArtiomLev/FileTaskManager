@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Менеджер задач лазерного станка
   description: Управление задачами для лазерного раскроечного станка в виде набора файлов управляющих программ
-  version: 0.1.1
+  version: 0.1.2
 servers:
   - url: 'http://localhost:8080/api/v1'
     description: Local dev
@@ -136,6 +136,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaskWithFiles'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -161,13 +163,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/TaskWithFiles'
         '400':
-          description: Некорректные данные
           $ref: '#/components/responses/BadRequest'
         '404':
-          description: Задача не найдена
           $ref: '#/components/responses/NotFound'
         '409':
-          description: Путь уже существует или недопустимая операция
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalError'
@@ -181,8 +180,9 @@ paths:
       responses:
         '204':
           description: Задача удалена
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
-          description: Задача не найдена
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
@@ -229,8 +229,9 @@ paths:
               schema:
                 type: string
                 format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
-          description: Задача или файл не найдены
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
@@ -296,8 +297,9 @@ paths:
       responses:
         '204':
           description: Файл удалён
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
-          description: Файл не найден
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'

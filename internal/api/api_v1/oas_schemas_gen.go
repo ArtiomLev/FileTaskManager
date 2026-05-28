@@ -456,6 +456,10 @@ func (s *TaskCreateMultipart) SetFiles(val []ht.MultipartFile) {
 	s.Files = val
 }
 
+type TaskDeleteBadRequest ErrorResponse
+
+func (*TaskDeleteBadRequest) taskDeleteRes() {}
+
 type TaskDeleteInternalServerError ErrorResponse
 
 func (*TaskDeleteInternalServerError) taskDeleteRes() {}
@@ -469,6 +473,10 @@ type TaskDeleteNotFound ErrorResponse
 
 func (*TaskDeleteNotFound) taskDeleteRes() {}
 
+type TaskFileDeleteBadRequest ErrorResponse
+
+func (*TaskFileDeleteBadRequest) taskFileDeleteRes() {}
+
 type TaskFileDeleteInternalServerError ErrorResponse
 
 func (*TaskFileDeleteInternalServerError) taskFileDeleteRes() {}
@@ -481,6 +489,10 @@ func (*TaskFileDeleteNoContent) taskFileDeleteRes() {}
 type TaskFileDeleteNotFound ErrorResponse
 
 func (*TaskFileDeleteNotFound) taskFileDeleteRes() {}
+
+type TaskFileGetBadRequest ErrorResponse
+
+func (*TaskFileGetBadRequest) taskFileGetRes() {}
 
 type TaskFileGetInternalServerError ErrorResponse
 
@@ -553,6 +565,10 @@ func (s TaskFilePutReq) Read(p []byte) (n int, err error) {
 	}
 	return s.Data.Read(p)
 }
+
+type TaskGetBadRequest ErrorResponse
+
+func (*TaskGetBadRequest) taskGetRes() {}
 
 type TaskGetInternalServerError ErrorResponse
 
