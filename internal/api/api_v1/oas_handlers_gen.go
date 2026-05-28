@@ -11,6 +11,7 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/middleware"
 	"github.com/ogen-go/ogen/ogenerrors"
+	"github.com/ogen-go/ogen/otelogen"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
@@ -32,7 +33,7 @@ func (c *codeRecorder) Unwrap() http.ResponseWriter {
 	return c.ResponseWriter
 }
 
-// handleManagersGetRequest handles GET /managers operation.
+// handleManagersGetRequest handles ManagersGet operation.
 //
 // Возвращает список всех менеджеров задач сервера.
 //
@@ -41,6 +42,7 @@ func (s *Server) handleManagersGetRequest(args [0]string, argsEscaped bool, w ht
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("ManagersGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/managers"),
 	}
@@ -112,7 +114,7 @@ func (s *Server) handleManagersGetRequest(args [0]string, argsEscaped bool, w ht
 			Context:          ctx,
 			OperationName:    ManagersGetOperation,
 			OperationSummary: "Получение списка менеджеров",
-			OperationID:      "",
+			OperationID:      "ManagersGet",
 			Body:             nil,
 			RawBody:          rawBody,
 			Params:           middleware.Parameters{},
@@ -166,15 +168,16 @@ func (s *Server) handleManagersGetRequest(args [0]string, argsEscaped bool, w ht
 	}
 }
 
-// handleManagersManagerNameTasksContractNameDeleteRequest handles DELETE /managers/{managerName}/tasks/{contract}/{name} operation.
+// handleTaskDeleteRequest handles TaskDelete operation.
 //
 // Удаляет все файлы задачи вместе с папкой.
 //
 // DELETE /managers/{managerName}/tasks/{contract}/{name}
-func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskDeleteRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskDelete"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}"),
 	}
@@ -182,7 +185,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNameDeleteOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskDeleteOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -237,11 +240,11 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNameDeleteOperation,
-			ID:   "",
+			Name: TaskDeleteOperation,
+			ID:   "TaskDelete",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNameDeleteParams(args, argsEscaped, r)
+	params, err := decodeTaskDeleteParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -254,13 +257,13 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 
 	var rawBody []byte
 
-	var response ManagersManagerNameTasksContractNameDeleteRes
+	var response TaskDeleteRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNameDeleteOperation,
+			OperationName:    TaskDeleteOperation,
 			OperationSummary: "Удалить задачу",
-			OperationID:      "",
+			OperationID:      "TaskDelete",
 			Body:             nil,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -282,8 +285,8 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 
 		type (
 			Request  = struct{}
-			Params   = ManagersManagerNameTasksContractNameDeleteParams
-			Response = ManagersManagerNameTasksContractNameDeleteRes
+			Params   = TaskDeleteParams
+			Response = TaskDeleteRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -292,14 +295,14 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNameDeleteParams,
+			unpackTaskDeleteParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNameDelete(ctx, params)
+				response, err = s.h.TaskDelete(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNameDelete(ctx, params)
+		response, err = s.h.TaskDelete(ctx, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -318,7 +321,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNameDeleteResponse(response, w, span); err != nil {
+	if err := encodeTaskDeleteResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -327,15 +330,16 @@ func (s *Server) handleManagersManagerNameTasksContractNameDeleteRequest(args [3
 	}
 }
 
-// handleManagersManagerNameTasksContractNameFilenameDeleteRequest handles DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// handleTaskFileDeleteRequest handles TaskFileDelete operation.
 //
 // Удаляет файл с переданным именем из папки задачи.
 //
 // DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskFileDeleteRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFileDelete"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -343,7 +347,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNameFilenameDeleteOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskFileDeleteOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -398,11 +402,11 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNameFilenameDeleteOperation,
-			ID:   "",
+			Name: TaskFileDeleteOperation,
+			ID:   "TaskFileDelete",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNameFilenameDeleteParams(args, argsEscaped, r)
+	params, err := decodeTaskFileDeleteParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -415,13 +419,13 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 
 	var rawBody []byte
 
-	var response ManagersManagerNameTasksContractNameFilenameDeleteRes
+	var response TaskFileDeleteRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNameFilenameDeleteOperation,
+			OperationName:    TaskFileDeleteOperation,
 			OperationSummary: "Удалить файл",
-			OperationID:      "",
+			OperationID:      "TaskFileDelete",
 			Body:             nil,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -447,8 +451,8 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 
 		type (
 			Request  = struct{}
-			Params   = ManagersManagerNameTasksContractNameFilenameDeleteParams
-			Response = ManagersManagerNameTasksContractNameFilenameDeleteRes
+			Params   = TaskFileDeleteParams
+			Response = TaskFileDeleteRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -457,14 +461,14 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNameFilenameDeleteParams,
+			unpackTaskFileDeleteParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNameFilenameDelete(ctx, params)
+				response, err = s.h.TaskFileDelete(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNameFilenameDelete(ctx, params)
+		response, err = s.h.TaskFileDelete(ctx, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -483,7 +487,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNameFilenameDeleteResponse(response, w, span); err != nil {
+	if err := encodeTaskFileDeleteResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -492,16 +496,17 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameDeleteRequest
 	}
 }
 
-// handleManagersManagerNameTasksContractNameFilenameGetRequest handles GET /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// handleTaskFileGetRequest handles TaskFileGet operation.
 //
 // Возвращает файл с соответствующим названием из папки
 // задания.
 //
 // GET /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskFileGetRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFileGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -509,7 +514,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNameFilenameGetOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskFileGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -564,11 +569,11 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNameFilenameGetOperation,
-			ID:   "",
+			Name: TaskFileGetOperation,
+			ID:   "TaskFileGet",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNameFilenameGetParams(args, argsEscaped, r)
+	params, err := decodeTaskFileGetParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -581,13 +586,13 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 
 	var rawBody []byte
 
-	var response ManagersManagerNameTasksContractNameFilenameGetRes
+	var response TaskFileGetRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNameFilenameGetOperation,
+			OperationName:    TaskFileGetOperation,
 			OperationSummary: "Получение файла",
-			OperationID:      "",
+			OperationID:      "TaskFileGet",
 			Body:             nil,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -613,8 +618,8 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 
 		type (
 			Request  = struct{}
-			Params   = ManagersManagerNameTasksContractNameFilenameGetParams
-			Response = ManagersManagerNameTasksContractNameFilenameGetRes
+			Params   = TaskFileGetParams
+			Response = TaskFileGetRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -623,14 +628,14 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNameFilenameGetParams,
+			unpackTaskFileGetParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNameFilenameGet(ctx, params)
+				response, err = s.h.TaskFileGet(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNameFilenameGet(ctx, params)
+		response, err = s.h.TaskFileGet(ctx, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -649,7 +654,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNameFilenameGetResponse(response, w, span); err != nil {
+	if err := encodeTaskFileGetResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -658,15 +663,16 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenameGetRequest(ar
 	}
 }
 
-// handleManagersManagerNameTasksContractNameFilenamePostRequest handles POST /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// handleTaskFilePostRequest handles TaskFilePost operation.
 //
 // Загрузка файла в папку задачи.
 //
 // POST /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskFilePostRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFilePost"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -674,7 +680,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNameFilenamePostOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskFilePostOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -729,11 +735,11 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNameFilenamePostOperation,
-			ID:   "",
+			Name: TaskFilePostOperation,
+			ID:   "TaskFilePost",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNameFilenamePostParams(args, argsEscaped, r)
+	params, err := decodeTaskFilePostParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -745,7 +751,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 	}
 
 	var rawBody []byte
-	request, rawBody, close, err := s.decodeManagersManagerNameTasksContractNameFilenamePostRequest(r)
+	request, rawBody, close, err := s.decodeTaskFilePostRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -761,13 +767,13 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 		}
 	}()
 
-	var response ManagersManagerNameTasksContractNameFilenamePostRes
+	var response TaskFilePostRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNameFilenamePostOperation,
+			OperationName:    TaskFilePostOperation,
 			OperationSummary: "Загрузка файла",
-			OperationID:      "",
+			OperationID:      "TaskFilePost",
 			Body:             request,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -792,9 +798,9 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 		}
 
 		type (
-			Request  = ManagersManagerNameTasksContractNameFilenamePostReq
-			Params   = ManagersManagerNameTasksContractNameFilenamePostParams
-			Response = ManagersManagerNameTasksContractNameFilenamePostRes
+			Request  = TaskFilePostReq
+			Params   = TaskFilePostParams
+			Response = TaskFilePostRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -803,14 +809,14 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNameFilenamePostParams,
+			unpackTaskFilePostParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNameFilenamePost(ctx, request, params)
+				response, err = s.h.TaskFilePost(ctx, request, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNameFilenamePost(ctx, request, params)
+		response, err = s.h.TaskFilePost(ctx, request, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -829,7 +835,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNameFilenamePostResponse(response, w, span); err != nil {
+	if err := encodeTaskFilePostResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -838,16 +844,17 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePostRequest(a
 	}
 }
 
-// handleManagersManagerNameTasksContractNameFilenamePutRequest handles PUT /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// handleTaskFilePutRequest handles TaskFilePut operation.
 //
 // Загрузка файла в папку задачи. Заменяет существующий
 // файл.
 //
 // PUT /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskFilePutRequest(args [4]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFilePut"),
 		semconv.HTTPRequestMethodKey.String("PUT"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -855,7 +862,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNameFilenamePutOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskFilePutOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -910,11 +917,11 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNameFilenamePutOperation,
-			ID:   "",
+			Name: TaskFilePutOperation,
+			ID:   "TaskFilePut",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNameFilenamePutParams(args, argsEscaped, r)
+	params, err := decodeTaskFilePutParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -926,7 +933,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 	}
 
 	var rawBody []byte
-	request, rawBody, close, err := s.decodeManagersManagerNameTasksContractNameFilenamePutRequest(r)
+	request, rawBody, close, err := s.decodeTaskFilePutRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -942,13 +949,13 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 		}
 	}()
 
-	var response ManagersManagerNameTasksContractNameFilenamePutRes
+	var response TaskFilePutRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNameFilenamePutOperation,
+			OperationName:    TaskFilePutOperation,
 			OperationSummary: "Загрузка файла с заменой",
-			OperationID:      "",
+			OperationID:      "TaskFilePut",
 			Body:             request,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -973,9 +980,9 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 		}
 
 		type (
-			Request  = ManagersManagerNameTasksContractNameFilenamePutReq
-			Params   = ManagersManagerNameTasksContractNameFilenamePutParams
-			Response = ManagersManagerNameTasksContractNameFilenamePutRes
+			Request  = TaskFilePutReq
+			Params   = TaskFilePutParams
+			Response = TaskFilePutRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -984,14 +991,14 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNameFilenamePutParams,
+			unpackTaskFilePutParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNameFilenamePut(ctx, request, params)
+				response, err = s.h.TaskFilePut(ctx, request, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNameFilenamePut(ctx, request, params)
+		response, err = s.h.TaskFilePut(ctx, request, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -1010,7 +1017,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNameFilenamePutResponse(response, w, span); err != nil {
+	if err := encodeTaskFilePutResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -1019,15 +1026,16 @@ func (s *Server) handleManagersManagerNameTasksContractNameFilenamePutRequest(ar
 	}
 }
 
-// handleManagersManagerNameTasksContractNameGetRequest handles GET /managers/{managerName}/tasks/{contract}/{name} operation.
+// handleTaskGetRequest handles TaskGet operation.
 //
 // Возвращает объект задачи вместе со списком файлов.
 //
 // GET /managers/{managerName}/tasks/{contract}/{name}
-func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskGetRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}"),
 	}
@@ -1035,7 +1043,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNameGetOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1090,11 +1098,11 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNameGetOperation,
-			ID:   "",
+			Name: TaskGetOperation,
+			ID:   "TaskGet",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNameGetParams(args, argsEscaped, r)
+	params, err := decodeTaskGetParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -1107,13 +1115,13 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 
 	var rawBody []byte
 
-	var response ManagersManagerNameTasksContractNameGetRes
+	var response TaskGetRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNameGetOperation,
+			OperationName:    TaskGetOperation,
 			OperationSummary: "Получение задачи",
-			OperationID:      "",
+			OperationID:      "TaskGet",
 			Body:             nil,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -1135,8 +1143,8 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 
 		type (
 			Request  = struct{}
-			Params   = ManagersManagerNameTasksContractNameGetParams
-			Response = ManagersManagerNameTasksContractNameGetRes
+			Params   = TaskGetParams
+			Response = TaskGetRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -1145,14 +1153,14 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNameGetParams,
+			unpackTaskGetParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNameGet(ctx, params)
+				response, err = s.h.TaskGet(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNameGet(ctx, params)
+		response, err = s.h.TaskGet(ctx, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -1171,7 +1179,7 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNameGetResponse(response, w, span); err != nil {
+	if err := encodeTaskGetResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -1180,15 +1188,16 @@ func (s *Server) handleManagersManagerNameTasksContractNameGetRequest(args [3]st
 	}
 }
 
-// handleManagersManagerNameTasksContractNamePatchRequest handles PATCH /managers/{managerName}/tasks/{contract}/{name} operation.
+// handleTaskPatchRequest handles TaskPatch operation.
 //
 // Обновляет одно или несколько полей задачи.
 //
 // PATCH /managers/{managerName}/tasks/{contract}/{name}
-func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleTaskPatchRequest(args [3]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskPatch"),
 		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks/{contract}/{name}"),
 	}
@@ -1196,7 +1205,7 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksContractNamePatchOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskPatchOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1251,11 +1260,11 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksContractNamePatchOperation,
-			ID:   "",
+			Name: TaskPatchOperation,
+			ID:   "TaskPatch",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksContractNamePatchParams(args, argsEscaped, r)
+	params, err := decodeTaskPatchParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -1267,7 +1276,7 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 	}
 
 	var rawBody []byte
-	request, rawBody, close, err := s.decodeManagersManagerNameTasksContractNamePatchRequest(r)
+	request, rawBody, close, err := s.decodeTaskPatchRequest(r)
 	if err != nil {
 		err = &ogenerrors.DecodeRequestError{
 			OperationContext: opErrContext,
@@ -1283,13 +1292,13 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 		}
 	}()
 
-	var response ManagersManagerNameTasksContractNamePatchRes
+	var response TaskPatchRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksContractNamePatchOperation,
+			OperationName:    TaskPatchOperation,
 			OperationSummary: "Частичное обновление задачи",
-			OperationID:      "",
+			OperationID:      "TaskPatch",
 			Body:             request,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -1311,8 +1320,8 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 
 		type (
 			Request  = *TaskUpdate
-			Params   = ManagersManagerNameTasksContractNamePatchParams
-			Response = ManagersManagerNameTasksContractNamePatchRes
+			Params   = TaskPatchParams
+			Response = TaskPatchRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -1321,14 +1330,14 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksContractNamePatchParams,
+			unpackTaskPatchParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksContractNamePatch(ctx, request, params)
+				response, err = s.h.TaskPatch(ctx, request, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksContractNamePatch(ctx, request, params)
+		response, err = s.h.TaskPatch(ctx, request, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -1347,7 +1356,7 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksContractNamePatchResponse(response, w, span); err != nil {
+	if err := encodeTaskPatchResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)
@@ -1356,23 +1365,24 @@ func (s *Server) handleManagersManagerNameTasksContractNamePatchRequest(args [3]
 	}
 }
 
-// handleManagersManagerNameTasksGetRequest handles GET /managers/{managerName}/tasks operation.
+// handleTaskPostRequest handles TaskPost operation.
 //
-// Возвращает список задач менеджера.
+// Создаёт новую активную задачу в менеджере задач.
 //
-// GET /managers/{managerName}/tasks
-func (s *Server) handleManagersManagerNameTasksGetRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+// POST /managers/{managerName}/tasks
+func (s *Server) handleTaskPostRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	statusWriter := &codeRecorder{ResponseWriter: w}
 	w = statusWriter
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPRequestMethodKey.String("GET"),
+		otelogen.OperationID("TaskPost"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks"),
 	}
 	// Add attributes from config.
 	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
 
 	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksGetOperation,
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TaskPostOperation,
 		trace.WithAttributes(otelAttrs...),
 		serverSpanKind,
 	)
@@ -1427,11 +1437,180 @@ func (s *Server) handleManagersManagerNameTasksGetRequest(args [1]string, argsEs
 		}
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksGetOperation,
-			ID:   "",
+			Name: TaskPostOperation,
+			ID:   "TaskPost",
 		}
 	)
-	params, err := decodeManagersManagerNameTasksGetParams(args, argsEscaped, r)
+	params, err := decodeTaskPostParams(args, argsEscaped, r)
+	if err != nil {
+		err = &ogenerrors.DecodeParamsError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		defer recordError("DecodeParams", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+
+	var rawBody []byte
+	request, rawBody, close, err := s.decodeTaskPostRequest(r)
+	if err != nil {
+		err = &ogenerrors.DecodeRequestError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		defer recordError("DecodeRequest", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
+	defer func() {
+		if err := close(); err != nil {
+			recordError("CloseRequest", err)
+		}
+	}()
+
+	var response TaskPostRes
+	if m := s.cfg.Middleware; m != nil {
+		mreq := middleware.Request{
+			Context:          ctx,
+			OperationName:    TaskPostOperation,
+			OperationSummary: "Создание новой задачи",
+			OperationID:      "TaskPost",
+			Body:             request,
+			RawBody:          rawBody,
+			Params: middleware.Parameters{
+				{
+					Name: "managerName",
+					In:   "path",
+				}: params.ManagerName,
+			},
+			Raw: r,
+		}
+
+		type (
+			Request  = *TaskCreateMultipart
+			Params   = TaskPostParams
+			Response = TaskPostRes
+		)
+		response, err = middleware.HookMiddleware[
+			Request,
+			Params,
+			Response,
+		](
+			m,
+			mreq,
+			unpackTaskPostParams,
+			func(ctx context.Context, request Request, params Params) (response Response, err error) {
+				response, err = s.h.TaskPost(ctx, request, params)
+				return response, err
+			},
+		)
+	} else {
+		response, err = s.h.TaskPost(ctx, request, params)
+	}
+	if err != nil {
+		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
+			if err := encodeErrorResponse(errRes, w, span); err != nil {
+				defer recordError("Internal", err)
+			}
+			return
+		}
+		if errors.Is(err, ht.ErrNotImplemented) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+			return
+		}
+		if err := encodeErrorResponse(s.h.NewError(ctx, err), w, span); err != nil {
+			defer recordError("Internal", err)
+		}
+		return
+	}
+
+	if err := encodeTaskPostResponse(response, w, span); err != nil {
+		defer recordError("EncodeResponse", err)
+		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
+			s.cfg.ErrorHandler(ctx, w, r, err)
+		}
+		return
+	}
+}
+
+// handleTasksGetRequest handles TasksGet operation.
+//
+// Возвращает список задач менеджера.
+//
+// GET /managers/{managerName}/tasks
+func (s *Server) handleTasksGetRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TasksGet"),
+		semconv.HTTPRequestMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks"),
+	}
+	// Add attributes from config.
+	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
+
+	// Start a span for this request.
+	ctx, span := s.cfg.Tracer.Start(r.Context(), TasksGetOperation,
+		trace.WithAttributes(otelAttrs...),
+		serverSpanKind,
+	)
+	defer span.End()
+
+	// Add Labeler to context.
+	labeler := &Labeler{attrs: otelAttrs}
+	ctx = contextWithLabeler(ctx, labeler)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		elapsedDuration := time.Since(startTime)
+
+		attrSet := labeler.AttributeSet()
+		attrs := attrSet.ToSlice()
+		code := statusWriter.status
+		if code != 0 {
+			codeAttr := semconv.HTTPResponseStatusCode(code)
+			attrs = append(attrs, codeAttr)
+			span.SetAttributes(codeAttr)
+		}
+		attrOpt := metric.WithAttributes(attrs...)
+
+		// Increment request counter.
+		s.requests.Add(ctx, 1, attrOpt)
+
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
+	}()
+
+	var (
+		recordError = func(stage string, err error) {
+			span.RecordError(err)
+
+			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
+			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
+			// max redirects exceeded), in which case status MUST be set to Error.
+			code := statusWriter.status
+			if code < 100 || code >= 500 {
+				span.SetStatus(codes.Error, stage)
+			}
+
+			attrSet := labeler.AttributeSet()
+			attrs := attrSet.ToSlice()
+			if code != 0 {
+				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
+			}
+
+			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
+		}
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: TasksGetOperation,
+			ID:   "TasksGet",
+		}
+	)
+	params, err := decodeTasksGetParams(args, argsEscaped, r)
 	if err != nil {
 		err = &ogenerrors.DecodeParamsError{
 			OperationContext: opErrContext,
@@ -1444,13 +1623,13 @@ func (s *Server) handleManagersManagerNameTasksGetRequest(args [1]string, argsEs
 
 	var rawBody []byte
 
-	var response ManagersManagerNameTasksGetRes
+	var response TasksGetRes
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksGetOperation,
+			OperationName:    TasksGetOperation,
 			OperationSummary: "Получение списка задач",
-			OperationID:      "",
+			OperationID:      "TasksGet",
 			Body:             nil,
 			RawBody:          rawBody,
 			Params: middleware.Parameters{
@@ -1472,8 +1651,8 @@ func (s *Server) handleManagersManagerNameTasksGetRequest(args [1]string, argsEs
 
 		type (
 			Request  = struct{}
-			Params   = ManagersManagerNameTasksGetParams
-			Response = ManagersManagerNameTasksGetRes
+			Params   = TasksGetParams
+			Response = TasksGetRes
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -1482,14 +1661,14 @@ func (s *Server) handleManagersManagerNameTasksGetRequest(args [1]string, argsEs
 		](
 			m,
 			mreq,
-			unpackManagersManagerNameTasksGetParams,
+			unpackTasksGetParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksGet(ctx, params)
+				response, err = s.h.TasksGet(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.ManagersManagerNameTasksGet(ctx, params)
+		response, err = s.h.TasksGet(ctx, params)
 	}
 	if err != nil {
 		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
@@ -1508,175 +1687,7 @@ func (s *Server) handleManagersManagerNameTasksGetRequest(args [1]string, argsEs
 		return
 	}
 
-	if err := encodeManagersManagerNameTasksGetResponse(response, w, span); err != nil {
-		defer recordError("EncodeResponse", err)
-		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
-			s.cfg.ErrorHandler(ctx, w, r, err)
-		}
-		return
-	}
-}
-
-// handleManagersManagerNameTasksPostRequest handles POST /managers/{managerName}/tasks operation.
-//
-// Создаёт новую активную задачу в менеджере задач.
-//
-// POST /managers/{managerName}/tasks
-func (s *Server) handleManagersManagerNameTasksPostRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
-	statusWriter := &codeRecorder{ResponseWriter: w}
-	w = statusWriter
-	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/managers/{managerName}/tasks"),
-	}
-	// Add attributes from config.
-	otelAttrs = append(otelAttrs, s.cfg.Attributes...)
-
-	// Start a span for this request.
-	ctx, span := s.cfg.Tracer.Start(r.Context(), ManagersManagerNameTasksPostOperation,
-		trace.WithAttributes(otelAttrs...),
-		serverSpanKind,
-	)
-	defer span.End()
-
-	// Add Labeler to context.
-	labeler := &Labeler{attrs: otelAttrs}
-	ctx = contextWithLabeler(ctx, labeler)
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		elapsedDuration := time.Since(startTime)
-
-		attrSet := labeler.AttributeSet()
-		attrs := attrSet.ToSlice()
-		code := statusWriter.status
-		if code != 0 {
-			codeAttr := semconv.HTTPResponseStatusCode(code)
-			attrs = append(attrs, codeAttr)
-			span.SetAttributes(codeAttr)
-		}
-		attrOpt := metric.WithAttributes(attrs...)
-
-		// Increment request counter.
-		s.requests.Add(ctx, 1, attrOpt)
-
-		// Use floating point division here for higher precision (instead of Millisecond method).
-		s.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), attrOpt)
-	}()
-
-	var (
-		recordError = func(stage string, err error) {
-			span.RecordError(err)
-
-			// https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
-			// Span Status MUST be left unset if HTTP status code was in the 1xx, 2xx or 3xx ranges,
-			// unless there was another error (e.g., network error receiving the response body; or 3xx codes with
-			// max redirects exceeded), in which case status MUST be set to Error.
-			code := statusWriter.status
-			if code < 100 || code >= 500 {
-				span.SetStatus(codes.Error, stage)
-			}
-
-			attrSet := labeler.AttributeSet()
-			attrs := attrSet.ToSlice()
-			if code != 0 {
-				attrs = append(attrs, semconv.HTTPResponseStatusCode(code))
-			}
-
-			s.errors.Add(ctx, 1, metric.WithAttributes(attrs...))
-		}
-		err          error
-		opErrContext = ogenerrors.OperationContext{
-			Name: ManagersManagerNameTasksPostOperation,
-			ID:   "",
-		}
-	)
-	params, err := decodeManagersManagerNameTasksPostParams(args, argsEscaped, r)
-	if err != nil {
-		err = &ogenerrors.DecodeParamsError{
-			OperationContext: opErrContext,
-			Err:              err,
-		}
-		defer recordError("DecodeParams", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-
-	var rawBody []byte
-	request, rawBody, close, err := s.decodeManagersManagerNameTasksPostRequest(r)
-	if err != nil {
-		err = &ogenerrors.DecodeRequestError{
-			OperationContext: opErrContext,
-			Err:              err,
-		}
-		defer recordError("DecodeRequest", err)
-		s.cfg.ErrorHandler(ctx, w, r, err)
-		return
-	}
-	defer func() {
-		if err := close(); err != nil {
-			recordError("CloseRequest", err)
-		}
-	}()
-
-	var response ManagersManagerNameTasksPostRes
-	if m := s.cfg.Middleware; m != nil {
-		mreq := middleware.Request{
-			Context:          ctx,
-			OperationName:    ManagersManagerNameTasksPostOperation,
-			OperationSummary: "Создание новой задачи",
-			OperationID:      "",
-			Body:             request,
-			RawBody:          rawBody,
-			Params: middleware.Parameters{
-				{
-					Name: "managerName",
-					In:   "path",
-				}: params.ManagerName,
-			},
-			Raw: r,
-		}
-
-		type (
-			Request  = *TaskCreateMultipart
-			Params   = ManagersManagerNameTasksPostParams
-			Response = ManagersManagerNameTasksPostRes
-		)
-		response, err = middleware.HookMiddleware[
-			Request,
-			Params,
-			Response,
-		](
-			m,
-			mreq,
-			unpackManagersManagerNameTasksPostParams,
-			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.ManagersManagerNameTasksPost(ctx, request, params)
-				return response, err
-			},
-		)
-	} else {
-		response, err = s.h.ManagersManagerNameTasksPost(ctx, request, params)
-	}
-	if err != nil {
-		if errRes, ok := errors.Into[*ErrorStatusCode](err); ok {
-			if err := encodeErrorResponse(errRes, w, span); err != nil {
-				defer recordError("Internal", err)
-			}
-			return
-		}
-		if errors.Is(err, ht.ErrNotImplemented) {
-			s.cfg.ErrorHandler(ctx, w, r, err)
-			return
-		}
-		if err := encodeErrorResponse(s.h.NewError(ctx, err), w, span); err != nil {
-			defer recordError("Internal", err)
-		}
-		return
-	}
-
-	if err := encodeManagersManagerNameTasksPostResponse(response, w, span); err != nil {
+	if err := encodeTasksGetResponse(response, w, span); err != nil {
 		defer recordError("EncodeResponse", err)
 		if !errors.Is(err, ht.ErrInternalServerErrorResponse) {
 			s.cfg.ErrorHandler(ctx, w, r, err)

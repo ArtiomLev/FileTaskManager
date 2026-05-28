@@ -8,72 +8,79 @@ import (
 
 // Handler handles operations described by OpenAPI v3 specification.
 type Handler interface {
-	// ManagersGet implements GET /managers operation.
+	TasksHandler
+	// NewError creates *ErrorStatusCode from error returned by handler.
+	//
+	// Used for common default response.
+	NewError(ctx context.Context, err error) *ErrorStatusCode
+}
+
+// TasksHandler handles operations described by OpenAPI v3 specification.
+//
+// x-ogen-operation-group: Tasks
+type TasksHandler interface {
+	// ManagersGet implements ManagersGet operation.
 	//
 	// Возвращает список всех менеджеров задач сервера.
 	//
 	// GET /managers
 	ManagersGet(ctx context.Context) (ManagersGetRes, error)
-	// ManagersManagerNameTasksContractNameDelete implements DELETE /managers/{managerName}/tasks/{contract}/{name} operation.
+	// TaskDelete implements TaskDelete operation.
 	//
 	// Удаляет все файлы задачи вместе с папкой.
 	//
 	// DELETE /managers/{managerName}/tasks/{contract}/{name}
-	ManagersManagerNameTasksContractNameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameDeleteParams) (ManagersManagerNameTasksContractNameDeleteRes, error)
-	// ManagersManagerNameTasksContractNameFilenameDelete implements DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskDelete(ctx context.Context, params TaskDeleteParams) (TaskDeleteRes, error)
+	// TaskFileDelete implements TaskFileDelete operation.
 	//
 	// Удаляет файл с переданным именем из папки задачи.
 	//
 	// DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameDeleteParams) (ManagersManagerNameTasksContractNameFilenameDeleteRes, error)
-	// ManagersManagerNameTasksContractNameFilenameGet implements GET /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskFileDelete(ctx context.Context, params TaskFileDeleteParams) (TaskFileDeleteRes, error)
+	// TaskFileGet implements TaskFileGet operation.
 	//
 	// Возвращает файл с соответствующим названием из папки
 	// задания.
 	//
 	// GET /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenameGet(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameGetParams) (ManagersManagerNameTasksContractNameFilenameGetRes, error)
-	// ManagersManagerNameTasksContractNameFilenamePost implements POST /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskFileGet(ctx context.Context, params TaskFileGetParams) (TaskFileGetRes, error)
+	// TaskFilePost implements TaskFilePost operation.
 	//
 	// Загрузка файла в папку задачи.
 	//
 	// POST /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenamePost(ctx context.Context, req ManagersManagerNameTasksContractNameFilenamePostReq, params ManagersManagerNameTasksContractNameFilenamePostParams) (ManagersManagerNameTasksContractNameFilenamePostRes, error)
-	// ManagersManagerNameTasksContractNameFilenamePut implements PUT /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskFilePost(ctx context.Context, req TaskFilePostReq, params TaskFilePostParams) (TaskFilePostRes, error)
+	// TaskFilePut implements TaskFilePut operation.
 	//
 	// Загрузка файла в папку задачи. Заменяет существующий
 	// файл.
 	//
 	// PUT /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenamePut(ctx context.Context, req ManagersManagerNameTasksContractNameFilenamePutReq, params ManagersManagerNameTasksContractNameFilenamePutParams) (ManagersManagerNameTasksContractNameFilenamePutRes, error)
-	// ManagersManagerNameTasksContractNameGet implements GET /managers/{managerName}/tasks/{contract}/{name} operation.
+	TaskFilePut(ctx context.Context, req TaskFilePutReq, params TaskFilePutParams) (TaskFilePutRes, error)
+	// TaskGet implements TaskGet operation.
 	//
 	// Возвращает объект задачи вместе со списком файлов.
 	//
 	// GET /managers/{managerName}/tasks/{contract}/{name}
-	ManagersManagerNameTasksContractNameGet(ctx context.Context, params ManagersManagerNameTasksContractNameGetParams) (ManagersManagerNameTasksContractNameGetRes, error)
-	// ManagersManagerNameTasksContractNamePatch implements PATCH /managers/{managerName}/tasks/{contract}/{name} operation.
+	TaskGet(ctx context.Context, params TaskGetParams) (TaskGetRes, error)
+	// TaskPatch implements TaskPatch operation.
 	//
 	// Обновляет одно или несколько полей задачи.
 	//
 	// PATCH /managers/{managerName}/tasks/{contract}/{name}
-	ManagersManagerNameTasksContractNamePatch(ctx context.Context, req *TaskUpdate, params ManagersManagerNameTasksContractNamePatchParams) (ManagersManagerNameTasksContractNamePatchRes, error)
-	// ManagersManagerNameTasksGet implements GET /managers/{managerName}/tasks operation.
-	//
-	// Возвращает список задач менеджера.
-	//
-	// GET /managers/{managerName}/tasks
-	ManagersManagerNameTasksGet(ctx context.Context, params ManagersManagerNameTasksGetParams) (ManagersManagerNameTasksGetRes, error)
-	// ManagersManagerNameTasksPost implements POST /managers/{managerName}/tasks operation.
+	TaskPatch(ctx context.Context, req *TaskUpdate, params TaskPatchParams) (TaskPatchRes, error)
+	// TaskPost implements TaskPost operation.
 	//
 	// Создаёт новую активную задачу в менеджере задач.
 	//
 	// POST /managers/{managerName}/tasks
-	ManagersManagerNameTasksPost(ctx context.Context, req *TaskCreateMultipart, params ManagersManagerNameTasksPostParams) (ManagersManagerNameTasksPostRes, error)
-	// NewError creates *ErrorStatusCode from error returned by handler.
+	TaskPost(ctx context.Context, req *TaskCreateMultipart, params TaskPostParams) (TaskPostRes, error)
+	// TasksGet implements TasksGet operation.
 	//
-	// Used for common default response.
-	NewError(ctx context.Context, err error) *ErrorStatusCode
+	// Возвращает список задач менеджера.
+	//
+	// GET /managers/{managerName}/tasks
+	TasksGet(ctx context.Context, params TasksGetParams) (TasksGetRes, error)
 }
 
 // Server implements http server based on OpenAPI v3 specification and

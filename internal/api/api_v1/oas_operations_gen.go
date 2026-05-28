@@ -6,14 +6,14 @@ package api_v1
 type OperationName = string
 
 const (
-	ManagersGetOperation                                        OperationName = "ManagersGet"
-	ManagersManagerNameTasksContractNameDeleteOperation         OperationName = "ManagersManagerNameTasksContractNameDelete"
-	ManagersManagerNameTasksContractNameFilenameDeleteOperation OperationName = "ManagersManagerNameTasksContractNameFilenameDelete"
-	ManagersManagerNameTasksContractNameFilenameGetOperation    OperationName = "ManagersManagerNameTasksContractNameFilenameGet"
-	ManagersManagerNameTasksContractNameFilenamePostOperation   OperationName = "ManagersManagerNameTasksContractNameFilenamePost"
-	ManagersManagerNameTasksContractNameFilenamePutOperation    OperationName = "ManagersManagerNameTasksContractNameFilenamePut"
-	ManagersManagerNameTasksContractNameGetOperation            OperationName = "ManagersManagerNameTasksContractNameGet"
-	ManagersManagerNameTasksContractNamePatchOperation          OperationName = "ManagersManagerNameTasksContractNamePatch"
-	ManagersManagerNameTasksGetOperation                        OperationName = "ManagersManagerNameTasksGet"
-	ManagersManagerNameTasksPostOperation                       OperationName = "ManagersManagerNameTasksPost"
+	ManagersGetOperation    OperationName = "ManagersGet"
+	TaskDeleteOperation     OperationName = "TaskDelete"
+	TaskFileDeleteOperation OperationName = "TaskFileDelete"
+	TaskFileGetOperation    OperationName = "TaskFileGet"
+	TaskFilePostOperation   OperationName = "TaskFilePost"
+	TaskFilePutOperation    OperationName = "TaskFilePut"
+	TaskGetOperation        OperationName = "TaskGet"
+	TaskPatchOperation      OperationName = "TaskPatch"
+	TaskPostOperation       OperationName = "TaskPost"
+	TasksGetOperation       OperationName = "TasksGet"
 )

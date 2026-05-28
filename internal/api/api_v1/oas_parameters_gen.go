@@ -14,8 +14,8 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-// ManagersManagerNameTasksContractNameDeleteParams is parameters of DELETE /managers/{managerName}/tasks/{contract}/{name} operation.
-type ManagersManagerNameTasksContractNameDeleteParams struct {
+// TaskDeleteParams is parameters of TaskDelete operation.
+type TaskDeleteParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -24,7 +24,7 @@ type ManagersManagerNameTasksContractNameDeleteParams struct {
 	Name string
 }
 
-func unpackManagersManagerNameTasksContractNameDeleteParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNameDeleteParams) {
+func unpackTaskDeleteParams(packed middleware.Parameters) (params TaskDeleteParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -49,7 +49,7 @@ func unpackManagersManagerNameTasksContractNameDeleteParams(packed middleware.Pa
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNameDeleteParams(args [3]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNameDeleteParams, _ error) {
+func decodeTaskDeleteParams(args [3]string, argsEscaped bool, r *http.Request) (params TaskDeleteParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -188,8 +188,8 @@ func decodeManagersManagerNameTasksContractNameDeleteParams(args [3]string, args
 	return params, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenameDeleteParams is parameters of DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
-type ManagersManagerNameTasksContractNameFilenameDeleteParams struct {
+// TaskFileDeleteParams is parameters of TaskFileDelete operation.
+type TaskFileDeleteParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -200,7 +200,7 @@ type ManagersManagerNameTasksContractNameFilenameDeleteParams struct {
 	Filename string
 }
 
-func unpackManagersManagerNameTasksContractNameFilenameDeleteParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNameFilenameDeleteParams) {
+func unpackTaskFileDeleteParams(packed middleware.Parameters) (params TaskFileDeleteParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -232,7 +232,7 @@ func unpackManagersManagerNameTasksContractNameFilenameDeleteParams(packed middl
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNameFilenameDeleteParams(args [4]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNameFilenameDeleteParams, _ error) {
+func decodeTaskFileDeleteParams(args [4]string, argsEscaped bool, r *http.Request) (params TaskFileDeleteParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -416,8 +416,8 @@ func decodeManagersManagerNameTasksContractNameFilenameDeleteParams(args [4]stri
 	return params, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenameGetParams is parameters of GET /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
-type ManagersManagerNameTasksContractNameFilenameGetParams struct {
+// TaskFileGetParams is parameters of TaskFileGet operation.
+type TaskFileGetParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -428,7 +428,7 @@ type ManagersManagerNameTasksContractNameFilenameGetParams struct {
 	Filename string
 }
 
-func unpackManagersManagerNameTasksContractNameFilenameGetParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNameFilenameGetParams) {
+func unpackTaskFileGetParams(packed middleware.Parameters) (params TaskFileGetParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -460,7 +460,7 @@ func unpackManagersManagerNameTasksContractNameFilenameGetParams(packed middlewa
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNameFilenameGetParams(args [4]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNameFilenameGetParams, _ error) {
+func decodeTaskFileGetParams(args [4]string, argsEscaped bool, r *http.Request) (params TaskFileGetParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -644,8 +644,8 @@ func decodeManagersManagerNameTasksContractNameFilenameGetParams(args [4]string,
 	return params, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenamePostParams is parameters of POST /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
-type ManagersManagerNameTasksContractNameFilenamePostParams struct {
+// TaskFilePostParams is parameters of TaskFilePost operation.
+type TaskFilePostParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -656,7 +656,7 @@ type ManagersManagerNameTasksContractNameFilenamePostParams struct {
 	Filename string
 }
 
-func unpackManagersManagerNameTasksContractNameFilenamePostParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNameFilenamePostParams) {
+func unpackTaskFilePostParams(packed middleware.Parameters) (params TaskFilePostParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -688,7 +688,7 @@ func unpackManagersManagerNameTasksContractNameFilenamePostParams(packed middlew
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNameFilenamePostParams(args [4]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNameFilenamePostParams, _ error) {
+func decodeTaskFilePostParams(args [4]string, argsEscaped bool, r *http.Request) (params TaskFilePostParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -872,8 +872,8 @@ func decodeManagersManagerNameTasksContractNameFilenamePostParams(args [4]string
 	return params, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenamePutParams is parameters of PUT /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
-type ManagersManagerNameTasksContractNameFilenamePutParams struct {
+// TaskFilePutParams is parameters of TaskFilePut operation.
+type TaskFilePutParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -884,7 +884,7 @@ type ManagersManagerNameTasksContractNameFilenamePutParams struct {
 	Filename string
 }
 
-func unpackManagersManagerNameTasksContractNameFilenamePutParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNameFilenamePutParams) {
+func unpackTaskFilePutParams(packed middleware.Parameters) (params TaskFilePutParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -916,7 +916,7 @@ func unpackManagersManagerNameTasksContractNameFilenamePutParams(packed middlewa
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNameFilenamePutParams(args [4]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNameFilenamePutParams, _ error) {
+func decodeTaskFilePutParams(args [4]string, argsEscaped bool, r *http.Request) (params TaskFilePutParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -1100,8 +1100,8 @@ func decodeManagersManagerNameTasksContractNameFilenamePutParams(args [4]string,
 	return params, nil
 }
 
-// ManagersManagerNameTasksContractNameGetParams is parameters of GET /managers/{managerName}/tasks/{contract}/{name} operation.
-type ManagersManagerNameTasksContractNameGetParams struct {
+// TaskGetParams is parameters of TaskGet operation.
+type TaskGetParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -1110,7 +1110,7 @@ type ManagersManagerNameTasksContractNameGetParams struct {
 	Name string
 }
 
-func unpackManagersManagerNameTasksContractNameGetParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNameGetParams) {
+func unpackTaskGetParams(packed middleware.Parameters) (params TaskGetParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -1135,7 +1135,7 @@ func unpackManagersManagerNameTasksContractNameGetParams(packed middleware.Param
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNameGetParams(args [3]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNameGetParams, _ error) {
+func decodeTaskGetParams(args [3]string, argsEscaped bool, r *http.Request) (params TaskGetParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -1274,8 +1274,8 @@ func decodeManagersManagerNameTasksContractNameGetParams(args [3]string, argsEsc
 	return params, nil
 }
 
-// ManagersManagerNameTasksContractNamePatchParams is parameters of PATCH /managers/{managerName}/tasks/{contract}/{name} operation.
-type ManagersManagerNameTasksContractNamePatchParams struct {
+// TaskPatchParams is parameters of TaskPatch operation.
+type TaskPatchParams struct {
 	// Адресное имя менеджера.
 	ManagerName string
 	// Имя договора.
@@ -1284,7 +1284,7 @@ type ManagersManagerNameTasksContractNamePatchParams struct {
 	Name string
 }
 
-func unpackManagersManagerNameTasksContractNamePatchParams(packed middleware.Parameters) (params ManagersManagerNameTasksContractNamePatchParams) {
+func unpackTaskPatchParams(packed middleware.Parameters) (params TaskPatchParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "managerName",
@@ -1309,7 +1309,7 @@ func unpackManagersManagerNameTasksContractNamePatchParams(packed middleware.Par
 	return params
 }
 
-func decodeManagersManagerNameTasksContractNamePatchParams(args [3]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksContractNamePatchParams, _ error) {
+func decodeTaskPatchParams(args [3]string, argsEscaped bool, r *http.Request) (params TaskPatchParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]
@@ -1448,16 +1448,82 @@ func decodeManagersManagerNameTasksContractNamePatchParams(args [3]string, argsE
 	return params, nil
 }
 
-// ManagersManagerNameTasksGetParams is parameters of GET /managers/{managerName}/tasks operation.
-type ManagersManagerNameTasksGetParams struct {
+// TaskPostParams is parameters of TaskPost operation.
+type TaskPostParams struct {
+	// Адресное имя менеджера.
+	ManagerName string
+}
+
+func unpackTaskPostParams(packed middleware.Parameters) (params TaskPostParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "managerName",
+			In:   "path",
+		}
+		params.ManagerName = packed[key].(string)
+	}
+	return params
+}
+
+func decodeTaskPostParams(args [1]string, argsEscaped bool, r *http.Request) (params TaskPostParams, _ error) {
+	// Decode path: managerName.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "managerName",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.ManagerName = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "managerName",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
+// TasksGetParams is parameters of TasksGet operation.
+type TasksGetParams struct {
 	// Фильтр по номеру договора.
-	Contract OptString                            `json:",omitempty,omitzero"`
-	Status   OptManagersManagerNameTasksGetStatus `json:",omitempty,omitzero"`
+	Contract OptString         `json:",omitempty,omitzero"`
+	Status   OptTasksGetStatus `json:",omitempty,omitzero"`
 	// Адресное имя менеджера.
 	ManagerName string
 }
 
-func unpackManagersManagerNameTasksGetParams(packed middleware.Parameters) (params ManagersManagerNameTasksGetParams) {
+func unpackTasksGetParams(packed middleware.Parameters) (params TasksGetParams) {
 	{
 		key := middleware.ParameterKey{
 			Name: "contract",
@@ -1473,7 +1539,7 @@ func unpackManagersManagerNameTasksGetParams(packed middleware.Parameters) (para
 			In:   "query",
 		}
 		if v, ok := packed[key]; ok {
-			params.Status = v.(OptManagersManagerNameTasksGetStatus)
+			params.Status = v.(OptTasksGetStatus)
 		}
 	}
 	{
@@ -1486,7 +1552,7 @@ func unpackManagersManagerNameTasksGetParams(packed middleware.Parameters) (para
 	return params
 }
 
-func decodeManagersManagerNameTasksGetParams(args [1]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksGetParams, _ error) {
+func decodeTasksGetParams(args [1]string, argsEscaped bool, r *http.Request) (params TasksGetParams, _ error) {
 	q := uri.NewQueryDecoder(r.URL.Query())
 	// Decode query: contract.
 	if err := func() error {
@@ -1539,7 +1605,7 @@ func decodeManagersManagerNameTasksGetParams(args [1]string, argsEscaped bool, r
 
 		if err := q.HasParam(cfg); err == nil {
 			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
-				var paramsDotStatusVal ManagersManagerNameTasksGetStatus
+				var paramsDotStatusVal TasksGetStatus
 				if err := func() error {
 					val, err := d.DecodeValue()
 					if err != nil {
@@ -1551,7 +1617,7 @@ func decodeManagersManagerNameTasksGetParams(args [1]string, argsEscaped bool, r
 						return err
 					}
 
-					paramsDotStatusVal = ManagersManagerNameTasksGetStatus(c)
+					paramsDotStatusVal = TasksGetStatus(c)
 					return nil
 				}(); err != nil {
 					return err
@@ -1585,72 +1651,6 @@ func decodeManagersManagerNameTasksGetParams(args [1]string, argsEscaped bool, r
 			Err:  err,
 		}
 	}
-	// Decode path: managerName.
-	if err := func() error {
-		param := args[0]
-		if argsEscaped {
-			unescaped, err := url.PathUnescape(args[0])
-			if err != nil {
-				return errors.Wrap(err, "unescape path")
-			}
-			param = unescaped
-		}
-		if len(param) > 0 {
-			d := uri.NewPathDecoder(uri.PathDecoderConfig{
-				Param:   "managerName",
-				Value:   param,
-				Style:   uri.PathStyleSimple,
-				Explode: false,
-			})
-
-			if err := func() error {
-				val, err := d.DecodeValue()
-				if err != nil {
-					return err
-				}
-
-				c, err := conv.ToString(val)
-				if err != nil {
-					return err
-				}
-
-				params.ManagerName = c
-				return nil
-			}(); err != nil {
-				return err
-			}
-		} else {
-			return validate.ErrFieldRequired
-		}
-		return nil
-	}(); err != nil {
-		return params, &ogenerrors.DecodeParamError{
-			Name: "managerName",
-			In:   "path",
-			Err:  err,
-		}
-	}
-	return params, nil
-}
-
-// ManagersManagerNameTasksPostParams is parameters of POST /managers/{managerName}/tasks operation.
-type ManagersManagerNameTasksPostParams struct {
-	// Адресное имя менеджера.
-	ManagerName string
-}
-
-func unpackManagersManagerNameTasksPostParams(packed middleware.Parameters) (params ManagersManagerNameTasksPostParams) {
-	{
-		key := middleware.ParameterKey{
-			Name: "managerName",
-			In:   "path",
-		}
-		params.ManagerName = packed[key].(string)
-	}
-	return params
-}
-
-func decodeManagersManagerNameTasksPostParams(args [1]string, argsEscaped bool, r *http.Request) (params ManagersManagerNameTasksPostParams, _ error) {
 	// Decode path: managerName.
 	if err := func() error {
 		param := args[0]

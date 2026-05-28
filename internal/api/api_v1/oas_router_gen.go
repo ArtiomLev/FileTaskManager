@@ -118,11 +118,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					if len(elem) == 0 {
 						switch r.Method {
 						case "GET":
-							s.handleManagersManagerNameTasksGetRequest([1]string{
+							s.handleTasksGetRequest([1]string{
 								args[0],
 							}, elemIsEscaped, w, r)
 						case "POST":
-							s.handleManagersManagerNameTasksPostRequest([1]string{
+							s.handleTaskPostRequest([1]string{
 								args[0],
 							}, elemIsEscaped, w, r)
 						default:
@@ -178,19 +178,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							if len(elem) == 0 {
 								switch r.Method {
 								case "DELETE":
-									s.handleManagersManagerNameTasksContractNameDeleteRequest([3]string{
+									s.handleTaskDeleteRequest([3]string{
 										args[0],
 										args[1],
 										args[2],
 									}, elemIsEscaped, w, r)
 								case "GET":
-									s.handleManagersManagerNameTasksContractNameGetRequest([3]string{
+									s.handleTaskGetRequest([3]string{
 										args[0],
 										args[1],
 										args[2],
 									}, elemIsEscaped, w, r)
 								case "PATCH":
-									s.handleManagersManagerNameTasksContractNamePatchRequest([3]string{
+									s.handleTaskPatchRequest([3]string{
 										args[0],
 										args[1],
 										args[2],
@@ -228,28 +228,28 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 									// Leaf node.
 									switch r.Method {
 									case "DELETE":
-										s.handleManagersManagerNameTasksContractNameFilenameDeleteRequest([4]string{
+										s.handleTaskFileDeleteRequest([4]string{
 											args[0],
 											args[1],
 											args[2],
 											args[3],
 										}, elemIsEscaped, w, r)
 									case "GET":
-										s.handleManagersManagerNameTasksContractNameFilenameGetRequest([4]string{
+										s.handleTaskFileGetRequest([4]string{
 											args[0],
 											args[1],
 											args[2],
 											args[3],
 										}, elemIsEscaped, w, r)
 									case "POST":
-										s.handleManagersManagerNameTasksContractNameFilenamePostRequest([4]string{
+										s.handleTaskFilePostRequest([4]string{
 											args[0],
 											args[1],
 											args[2],
 											args[3],
 										}, elemIsEscaped, w, r)
 									case "PUT":
-										s.handleManagersManagerNameTasksContractNameFilenamePutRequest([4]string{
+										s.handleTaskFilePutRequest([4]string{
 											args[0],
 											args[1],
 											args[2],
@@ -376,8 +376,8 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				case "GET":
 					r.name = ManagersGetOperation
 					r.summary = "Получение списка менеджеров"
-					r.operationID = ""
-					r.operationGroup = ""
+					r.operationID = "ManagersGet"
+					r.operationGroup = "Tasks"
 					r.pathPattern = "/managers"
 					r.args = args
 					r.count = 0
@@ -419,19 +419,19 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					if len(elem) == 0 {
 						switch method {
 						case "GET":
-							r.name = ManagersManagerNameTasksGetOperation
+							r.name = TasksGetOperation
 							r.summary = "Получение списка задач"
-							r.operationID = ""
-							r.operationGroup = ""
+							r.operationID = "TasksGet"
+							r.operationGroup = "Tasks"
 							r.pathPattern = "/managers/{managerName}/tasks"
 							r.args = args
 							r.count = 1
 							return r, true
 						case "POST":
-							r.name = ManagersManagerNameTasksPostOperation
+							r.name = TaskPostOperation
 							r.summary = "Создание новой задачи"
-							r.operationID = ""
-							r.operationGroup = ""
+							r.operationID = "TaskPost"
+							r.operationGroup = "Tasks"
 							r.pathPattern = "/managers/{managerName}/tasks"
 							r.args = args
 							r.count = 1
@@ -482,28 +482,28 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							if len(elem) == 0 {
 								switch method {
 								case "DELETE":
-									r.name = ManagersManagerNameTasksContractNameDeleteOperation
+									r.name = TaskDeleteOperation
 									r.summary = "Удалить задачу"
-									r.operationID = ""
-									r.operationGroup = ""
+									r.operationID = "TaskDelete"
+									r.operationGroup = "Tasks"
 									r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}"
 									r.args = args
 									r.count = 3
 									return r, true
 								case "GET":
-									r.name = ManagersManagerNameTasksContractNameGetOperation
+									r.name = TaskGetOperation
 									r.summary = "Получение задачи"
-									r.operationID = ""
-									r.operationGroup = ""
+									r.operationID = "TaskGet"
+									r.operationGroup = "Tasks"
 									r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}"
 									r.args = args
 									r.count = 3
 									return r, true
 								case "PATCH":
-									r.name = ManagersManagerNameTasksContractNamePatchOperation
+									r.name = TaskPatchOperation
 									r.summary = "Частичное обновление задачи"
-									r.operationID = ""
-									r.operationGroup = ""
+									r.operationID = "TaskPatch"
+									r.operationGroup = "Tasks"
 									r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}"
 									r.args = args
 									r.count = 3
@@ -534,37 +534,37 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									// Leaf node.
 									switch method {
 									case "DELETE":
-										r.name = ManagersManagerNameTasksContractNameFilenameDeleteOperation
+										r.name = TaskFileDeleteOperation
 										r.summary = "Удалить файл"
-										r.operationID = ""
-										r.operationGroup = ""
+										r.operationID = "TaskFileDelete"
+										r.operationGroup = "Tasks"
 										r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}/{filename}"
 										r.args = args
 										r.count = 4
 										return r, true
 									case "GET":
-										r.name = ManagersManagerNameTasksContractNameFilenameGetOperation
+										r.name = TaskFileGetOperation
 										r.summary = "Получение файла"
-										r.operationID = ""
-										r.operationGroup = ""
+										r.operationID = "TaskFileGet"
+										r.operationGroup = "Tasks"
 										r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}/{filename}"
 										r.args = args
 										r.count = 4
 										return r, true
 									case "POST":
-										r.name = ManagersManagerNameTasksContractNameFilenamePostOperation
+										r.name = TaskFilePostOperation
 										r.summary = "Загрузка файла"
-										r.operationID = ""
-										r.operationGroup = ""
+										r.operationID = "TaskFilePost"
+										r.operationGroup = "Tasks"
 										r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}/{filename}"
 										r.args = args
 										r.count = 4
 										return r, true
 									case "PUT":
-										r.name = ManagersManagerNameTasksContractNameFilenamePutOperation
+										r.name = TaskFilePutOperation
 										r.summary = "Загрузка файла с заменой"
-										r.operationID = ""
-										r.operationGroup = ""
+										r.operationID = "TaskFilePut"
+										r.operationGroup = "Tasks"
 										r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}/{filename}"
 										r.args = args
 										r.count = 4

@@ -13,7 +13,7 @@ type UnimplementedHandler struct{}
 
 var _ Handler = UnimplementedHandler{}
 
-// ManagersGet implements GET /managers operation.
+// ManagersGet implements ManagersGet operation.
 //
 // Возвращает список всех менеджеров задач сервера.
 //
@@ -22,86 +22,86 @@ func (UnimplementedHandler) ManagersGet(ctx context.Context) (r ManagersGetRes, 
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNameDelete implements DELETE /managers/{managerName}/tasks/{contract}/{name} operation.
+// TaskDelete implements TaskDelete operation.
 //
 // Удаляет все файлы задачи вместе с папкой.
 //
 // DELETE /managers/{managerName}/tasks/{contract}/{name}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameDeleteParams) (r ManagersManagerNameTasksContractNameDeleteRes, _ error) {
+func (UnimplementedHandler) TaskDelete(ctx context.Context, params TaskDeleteParams) (r TaskDeleteRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNameFilenameDelete implements DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFileDelete implements TaskFileDelete operation.
 //
 // Удаляет файл с переданным именем из папки задачи.
 //
 // DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNameFilenameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameDeleteParams) (r ManagersManagerNameTasksContractNameFilenameDeleteRes, _ error) {
+func (UnimplementedHandler) TaskFileDelete(ctx context.Context, params TaskFileDeleteParams) (r TaskFileDeleteRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNameFilenameGet implements GET /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFileGet implements TaskFileGet operation.
 //
 // Возвращает файл с соответствующим названием из папки
 // задания.
 //
 // GET /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNameFilenameGet(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameGetParams) (r ManagersManagerNameTasksContractNameFilenameGetRes, _ error) {
+func (UnimplementedHandler) TaskFileGet(ctx context.Context, params TaskFileGetParams) (r TaskFileGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNameFilenamePost implements POST /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFilePost implements TaskFilePost operation.
 //
 // Загрузка файла в папку задачи.
 //
 // POST /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNameFilenamePost(ctx context.Context, req ManagersManagerNameTasksContractNameFilenamePostReq, params ManagersManagerNameTasksContractNameFilenamePostParams) (r ManagersManagerNameTasksContractNameFilenamePostRes, _ error) {
+func (UnimplementedHandler) TaskFilePost(ctx context.Context, req TaskFilePostReq, params TaskFilePostParams) (r TaskFilePostRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNameFilenamePut implements PUT /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFilePut implements TaskFilePut operation.
 //
 // Загрузка файла в папку задачи. Заменяет существующий
 // файл.
 //
 // PUT /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNameFilenamePut(ctx context.Context, req ManagersManagerNameTasksContractNameFilenamePutReq, params ManagersManagerNameTasksContractNameFilenamePutParams) (r ManagersManagerNameTasksContractNameFilenamePutRes, _ error) {
+func (UnimplementedHandler) TaskFilePut(ctx context.Context, req TaskFilePutReq, params TaskFilePutParams) (r TaskFilePutRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNameGet implements GET /managers/{managerName}/tasks/{contract}/{name} operation.
+// TaskGet implements TaskGet operation.
 //
 // Возвращает объект задачи вместе со списком файлов.
 //
 // GET /managers/{managerName}/tasks/{contract}/{name}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNameGet(ctx context.Context, params ManagersManagerNameTasksContractNameGetParams) (r ManagersManagerNameTasksContractNameGetRes, _ error) {
+func (UnimplementedHandler) TaskGet(ctx context.Context, params TaskGetParams) (r TaskGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksContractNamePatch implements PATCH /managers/{managerName}/tasks/{contract}/{name} operation.
+// TaskPatch implements TaskPatch operation.
 //
 // Обновляет одно или несколько полей задачи.
 //
 // PATCH /managers/{managerName}/tasks/{contract}/{name}
-func (UnimplementedHandler) ManagersManagerNameTasksContractNamePatch(ctx context.Context, req *TaskUpdate, params ManagersManagerNameTasksContractNamePatchParams) (r ManagersManagerNameTasksContractNamePatchRes, _ error) {
+func (UnimplementedHandler) TaskPatch(ctx context.Context, req *TaskUpdate, params TaskPatchParams) (r TaskPatchRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 
-// ManagersManagerNameTasksGet implements GET /managers/{managerName}/tasks operation.
-//
-// Возвращает список задач менеджера.
-//
-// GET /managers/{managerName}/tasks
-func (UnimplementedHandler) ManagersManagerNameTasksGet(ctx context.Context, params ManagersManagerNameTasksGetParams) (r ManagersManagerNameTasksGetRes, _ error) {
-	return r, ht.ErrNotImplemented
-}
-
-// ManagersManagerNameTasksPost implements POST /managers/{managerName}/tasks operation.
+// TaskPost implements TaskPost operation.
 //
 // Создаёт новую активную задачу в менеджере задач.
 //
 // POST /managers/{managerName}/tasks
-func (UnimplementedHandler) ManagersManagerNameTasksPost(ctx context.Context, req *TaskCreateMultipart, params ManagersManagerNameTasksPostParams) (r ManagersManagerNameTasksPostRes, _ error) {
+func (UnimplementedHandler) TaskPost(ctx context.Context, req *TaskCreateMultipart, params TaskPostParams) (r TaskPostRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// TasksGet implements TasksGet operation.
+//
+// Возвращает список задач менеджера.
+//
+// GET /managers/{managerName}/tasks
+func (UnimplementedHandler) TasksGet(ctx context.Context, params TasksGetParams) (r TasksGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 

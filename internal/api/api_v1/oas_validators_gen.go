@@ -84,7 +84,7 @@ func (s Managers) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameDeleteInternalServerError) Validate() error {
+func (s *TaskDeleteInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -92,7 +92,7 @@ func (s *ManagersManagerNameTasksContractNameDeleteInternalServerError) Validate
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameDeleteNotFound) Validate() error {
+func (s *TaskDeleteNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -100,7 +100,7 @@ func (s *ManagersManagerNameTasksContractNameDeleteNotFound) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenameDeleteInternalServerError) Validate() error {
+func (s *TaskFileDeleteInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -108,7 +108,7 @@ func (s *ManagersManagerNameTasksContractNameFilenameDeleteInternalServerError) 
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenameDeleteNotFound) Validate() error {
+func (s *TaskFileDeleteNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -116,7 +116,7 @@ func (s *ManagersManagerNameTasksContractNameFilenameDeleteNotFound) Validate() 
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenameGetInternalServerError) Validate() error {
+func (s *TaskFileGetInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -124,7 +124,7 @@ func (s *ManagersManagerNameTasksContractNameFilenameGetInternalServerError) Val
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenameGetNotFound) Validate() error {
+func (s *TaskFileGetNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -132,7 +132,7 @@ func (s *ManagersManagerNameTasksContractNameFilenameGetNotFound) Validate() err
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenamePostBadRequest) Validate() error {
+func (s *TaskFilePostBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -140,7 +140,7 @@ func (s *ManagersManagerNameTasksContractNameFilenamePostBadRequest) Validate() 
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenamePostConflict) Validate() error {
+func (s *TaskFilePostConflict) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -148,7 +148,7 @@ func (s *ManagersManagerNameTasksContractNameFilenamePostConflict) Validate() er
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenamePostInternalServerError) Validate() error {
+func (s *TaskFilePostInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -156,7 +156,7 @@ func (s *ManagersManagerNameTasksContractNameFilenamePostInternalServerError) Va
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenamePutBadRequest) Validate() error {
+func (s *TaskFilePutBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -164,7 +164,7 @@ func (s *ManagersManagerNameTasksContractNameFilenamePutBadRequest) Validate() e
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameFilenamePutInternalServerError) Validate() error {
+func (s *TaskFilePutInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -172,7 +172,7 @@ func (s *ManagersManagerNameTasksContractNameFilenamePutInternalServerError) Val
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameGetInternalServerError) Validate() error {
+func (s *TaskGetInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -180,7 +180,7 @@ func (s *ManagersManagerNameTasksContractNameGetInternalServerError) Validate() 
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNameGetNotFound) Validate() error {
+func (s *TaskGetNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -188,7 +188,7 @@ func (s *ManagersManagerNameTasksContractNameGetNotFound) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNamePatchBadRequest) Validate() error {
+func (s *TaskPatchBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -196,7 +196,7 @@ func (s *ManagersManagerNameTasksContractNamePatchBadRequest) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNamePatchConflict) Validate() error {
+func (s *TaskPatchConflict) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -204,7 +204,7 @@ func (s *ManagersManagerNameTasksContractNamePatchConflict) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNamePatchInternalServerError) Validate() error {
+func (s *TaskPatchInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -212,7 +212,7 @@ func (s *ManagersManagerNameTasksContractNamePatchInternalServerError) Validate(
 	return nil
 }
 
-func (s *ManagersManagerNameTasksContractNamePatchNotFound) Validate() error {
+func (s *TaskPatchNotFound) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -220,7 +220,7 @@ func (s *ManagersManagerNameTasksContractNamePatchNotFound) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksGetBadRequest) Validate() error {
+func (s *TaskPostBadRequest) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -228,7 +228,7 @@ func (s *ManagersManagerNameTasksGetBadRequest) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksGetInternalServerError) Validate() error {
+func (s *TaskPostConflict) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -236,42 +236,7 @@ func (s *ManagersManagerNameTasksGetInternalServerError) Validate() error {
 	return nil
 }
 
-func (s *ManagersManagerNameTasksGetNotFound) Validate() error {
-	alias := (*ErrorResponse)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s ManagersManagerNameTasksGetStatus) Validate() error {
-	switch s {
-	case "active":
-		return nil
-	case "completed":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *ManagersManagerNameTasksPostBadRequest) Validate() error {
-	alias := (*ErrorResponse)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ManagersManagerNameTasksPostConflict) Validate() error {
-	alias := (*ErrorResponse)(s)
-	if err := alias.Validate(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (s *ManagersManagerNameTasksPostInternalServerError) Validate() error {
+func (s *TaskPostInternalServerError) Validate() error {
 	alias := (*ErrorResponse)(s)
 	if err := alias.Validate(); err != nil {
 		return err
@@ -331,4 +296,39 @@ func (s Tasks) Validate() error {
 		return errors.New("nil is invalid value")
 	}
 	return nil
+}
+
+func (s *TasksGetBadRequest) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *TasksGetInternalServerError) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *TasksGetNotFound) Validate() error {
+	alias := (*ErrorResponse)(s)
+	if err := alias.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s TasksGetStatus) Validate() error {
+	switch s {
+	case "active":
+		return nil
+	case "completed":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }

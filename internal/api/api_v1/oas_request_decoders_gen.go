@@ -18,8 +18,8 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func (s *Server) decodeManagersManagerNameTasksContractNameFilenamePostRequest(r *http.Request) (
-	req ManagersManagerNameTasksContractNameFilenamePostReq,
+func (s *Server) decodeTaskFilePostRequest(r *http.Request) (
+	req TaskFilePostReq,
 	rawBody []byte,
 	close func() error,
 	rerr error,
@@ -46,15 +46,15 @@ func (s *Server) decodeManagersManagerNameTasksContractNameFilenamePostRequest(r
 	switch {
 	case ct == "application/octet-stream":
 		reader := r.Body
-		request := ManagersManagerNameTasksContractNameFilenamePostReq{Data: reader}
+		request := TaskFilePostReq{Data: reader}
 		return request, rawBody, close, nil
 	default:
 		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
-func (s *Server) decodeManagersManagerNameTasksContractNameFilenamePutRequest(r *http.Request) (
-	req ManagersManagerNameTasksContractNameFilenamePutReq,
+func (s *Server) decodeTaskFilePutRequest(r *http.Request) (
+	req TaskFilePutReq,
 	rawBody []byte,
 	close func() error,
 	rerr error,
@@ -81,14 +81,14 @@ func (s *Server) decodeManagersManagerNameTasksContractNameFilenamePutRequest(r 
 	switch {
 	case ct == "application/octet-stream":
 		reader := r.Body
-		request := ManagersManagerNameTasksContractNameFilenamePutReq{Data: reader}
+		request := TaskFilePutReq{Data: reader}
 		return request, rawBody, close, nil
 	default:
 		return req, rawBody, close, validate.InvalidContentType(ct)
 	}
 }
 
-func (s *Server) decodeManagersManagerNameTasksContractNamePatchRequest(r *http.Request) (
+func (s *Server) decodeTaskPatchRequest(r *http.Request) (
 	req *TaskUpdate,
 	rawBody []byte,
 	close func() error,
@@ -159,7 +159,7 @@ func (s *Server) decodeManagersManagerNameTasksContractNamePatchRequest(r *http.
 	}
 }
 
-func (s *Server) decodeManagersManagerNameTasksPostRequest(r *http.Request) (
+func (s *Server) decodeTaskPostRequest(r *http.Request) (
 	req *TaskCreateMultipart,
 	rawBody []byte,
 	close func() error,

@@ -15,8 +15,8 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
-func encodeManagersManagerNameTasksContractNameFilenamePostRequest(
-	req ManagersManagerNameTasksContractNameFilenamePostReq,
+func encodeTaskFilePostRequest(
+	req TaskFilePostReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/octet-stream"
@@ -25,8 +25,8 @@ func encodeManagersManagerNameTasksContractNameFilenamePostRequest(
 	return nil
 }
 
-func encodeManagersManagerNameTasksContractNameFilenamePutRequest(
-	req ManagersManagerNameTasksContractNameFilenamePutReq,
+func encodeTaskFilePutRequest(
+	req TaskFilePutReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/octet-stream"
@@ -35,7 +35,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePutRequest(
 	return nil
 }
 
-func encodeManagersManagerNameTasksContractNamePatchRequest(
+func encodeTaskPatchRequest(
 	req *TaskUpdate,
 	r *http.Request,
 ) error {
@@ -49,7 +49,7 @@ func encodeManagersManagerNameTasksContractNamePatchRequest(
 	return nil
 }
 
-func encodeManagersManagerNameTasksPostRequest(
+func encodeTaskPostRequest(
 	req *TaskCreateMultipart,
 	r *http.Request,
 ) error {

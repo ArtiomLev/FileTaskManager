@@ -143,8 +143,8 @@ func (s *ErrorStatusCode) SetResponse(val ErrorResponse) {
 
 type Files []string
 
-func (*Files) managersManagerNameTasksContractNameFilenamePostRes() {}
-func (*Files) managersManagerNameTasksContractNameFilenamePutRes()  {}
+func (*Files) taskFilePostRes() {}
+func (*Files) taskFilePutRes()  {}
 
 // Менеджер задач.
 // Ref: #/components/schemas/Manager
@@ -178,213 +178,6 @@ func (s *Manager) SetDisplayName(val string) {
 type Managers []Manager
 
 func (*Managers) managersGetRes() {}
-
-type ManagersManagerNameTasksContractNameDeleteInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameDeleteInternalServerError) managersManagerNameTasksContractNameDeleteRes() {
-}
-
-// ManagersManagerNameTasksContractNameDeleteNoContent is response for ManagersManagerNameTasksContractNameDelete operation.
-type ManagersManagerNameTasksContractNameDeleteNoContent struct{}
-
-func (*ManagersManagerNameTasksContractNameDeleteNoContent) managersManagerNameTasksContractNameDeleteRes() {
-}
-
-type ManagersManagerNameTasksContractNameDeleteNotFound ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameDeleteNotFound) managersManagerNameTasksContractNameDeleteRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenameDeleteInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenameDeleteInternalServerError) managersManagerNameTasksContractNameFilenameDeleteRes() {
-}
-
-// ManagersManagerNameTasksContractNameFilenameDeleteNoContent is response for ManagersManagerNameTasksContractNameFilenameDelete operation.
-type ManagersManagerNameTasksContractNameFilenameDeleteNoContent struct{}
-
-func (*ManagersManagerNameTasksContractNameFilenameDeleteNoContent) managersManagerNameTasksContractNameFilenameDeleteRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenameDeleteNotFound ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenameDeleteNotFound) managersManagerNameTasksContractNameFilenameDeleteRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenameGetInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenameGetInternalServerError) managersManagerNameTasksContractNameFilenameGetRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenameGetNotFound ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenameGetNotFound) managersManagerNameTasksContractNameFilenameGetRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenameGetOK struct {
-	Data io.Reader
-}
-
-// Read reads data from the Data reader.
-//
-// Kept to satisfy the io.Reader interface.
-func (s ManagersManagerNameTasksContractNameFilenameGetOK) Read(p []byte) (n int, err error) {
-	if s.Data == nil {
-		return 0, io.EOF
-	}
-	return s.Data.Read(p)
-}
-
-func (*ManagersManagerNameTasksContractNameFilenameGetOK) managersManagerNameTasksContractNameFilenameGetRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenamePostBadRequest ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenamePostBadRequest) managersManagerNameTasksContractNameFilenamePostRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenamePostConflict ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenamePostConflict) managersManagerNameTasksContractNameFilenamePostRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenamePostInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenamePostInternalServerError) managersManagerNameTasksContractNameFilenamePostRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenamePostReq struct {
-	Data io.Reader
-}
-
-// Read reads data from the Data reader.
-//
-// Kept to satisfy the io.Reader interface.
-func (s ManagersManagerNameTasksContractNameFilenamePostReq) Read(p []byte) (n int, err error) {
-	if s.Data == nil {
-		return 0, io.EOF
-	}
-	return s.Data.Read(p)
-}
-
-type ManagersManagerNameTasksContractNameFilenamePutBadRequest ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenamePutBadRequest) managersManagerNameTasksContractNameFilenamePutRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenamePutInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameFilenamePutInternalServerError) managersManagerNameTasksContractNameFilenamePutRes() {
-}
-
-type ManagersManagerNameTasksContractNameFilenamePutReq struct {
-	Data io.Reader
-}
-
-// Read reads data from the Data reader.
-//
-// Kept to satisfy the io.Reader interface.
-func (s ManagersManagerNameTasksContractNameFilenamePutReq) Read(p []byte) (n int, err error) {
-	if s.Data == nil {
-		return 0, io.EOF
-	}
-	return s.Data.Read(p)
-}
-
-type ManagersManagerNameTasksContractNameGetInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameGetInternalServerError) managersManagerNameTasksContractNameGetRes() {
-}
-
-type ManagersManagerNameTasksContractNameGetNotFound ErrorResponse
-
-func (*ManagersManagerNameTasksContractNameGetNotFound) managersManagerNameTasksContractNameGetRes() {
-}
-
-type ManagersManagerNameTasksContractNamePatchBadRequest ErrorResponse
-
-func (*ManagersManagerNameTasksContractNamePatchBadRequest) managersManagerNameTasksContractNamePatchRes() {
-}
-
-type ManagersManagerNameTasksContractNamePatchConflict ErrorResponse
-
-func (*ManagersManagerNameTasksContractNamePatchConflict) managersManagerNameTasksContractNamePatchRes() {
-}
-
-type ManagersManagerNameTasksContractNamePatchInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksContractNamePatchInternalServerError) managersManagerNameTasksContractNamePatchRes() {
-}
-
-type ManagersManagerNameTasksContractNamePatchNotFound ErrorResponse
-
-func (*ManagersManagerNameTasksContractNamePatchNotFound) managersManagerNameTasksContractNamePatchRes() {
-}
-
-type ManagersManagerNameTasksGetBadRequest ErrorResponse
-
-func (*ManagersManagerNameTasksGetBadRequest) managersManagerNameTasksGetRes() {}
-
-type ManagersManagerNameTasksGetInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksGetInternalServerError) managersManagerNameTasksGetRes() {}
-
-type ManagersManagerNameTasksGetNotFound ErrorResponse
-
-func (*ManagersManagerNameTasksGetNotFound) managersManagerNameTasksGetRes() {}
-
-type ManagersManagerNameTasksGetStatus string
-
-const (
-	ManagersManagerNameTasksGetStatusActive    ManagersManagerNameTasksGetStatus = "active"
-	ManagersManagerNameTasksGetStatusCompleted ManagersManagerNameTasksGetStatus = "completed"
-)
-
-// AllValues returns all ManagersManagerNameTasksGetStatus values.
-func (ManagersManagerNameTasksGetStatus) AllValues() []ManagersManagerNameTasksGetStatus {
-	return []ManagersManagerNameTasksGetStatus{
-		ManagersManagerNameTasksGetStatusActive,
-		ManagersManagerNameTasksGetStatusCompleted,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ManagersManagerNameTasksGetStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case ManagersManagerNameTasksGetStatusActive:
-		return []byte(s), nil
-	case ManagersManagerNameTasksGetStatusCompleted:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ManagersManagerNameTasksGetStatus) UnmarshalText(data []byte) error {
-	switch ManagersManagerNameTasksGetStatus(data) {
-	case ManagersManagerNameTasksGetStatusActive:
-		*s = ManagersManagerNameTasksGetStatusActive
-		return nil
-	case ManagersManagerNameTasksGetStatusCompleted:
-		*s = ManagersManagerNameTasksGetStatusCompleted
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ManagersManagerNameTasksPostBadRequest ErrorResponse
-
-func (*ManagersManagerNameTasksPostBadRequest) managersManagerNameTasksPostRes() {}
-
-type ManagersManagerNameTasksPostConflict ErrorResponse
-
-func (*ManagersManagerNameTasksPostConflict) managersManagerNameTasksPostRes() {}
-
-type ManagersManagerNameTasksPostInternalServerError ErrorResponse
-
-func (*ManagersManagerNameTasksPostInternalServerError) managersManagerNameTasksPostRes() {}
 
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
@@ -432,52 +225,6 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
-// NewOptManagersManagerNameTasksGetStatus returns new OptManagersManagerNameTasksGetStatus with value set to v.
-func NewOptManagersManagerNameTasksGetStatus(v ManagersManagerNameTasksGetStatus) OptManagersManagerNameTasksGetStatus {
-	return OptManagersManagerNameTasksGetStatus{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptManagersManagerNameTasksGetStatus is optional ManagersManagerNameTasksGetStatus.
-type OptManagersManagerNameTasksGetStatus struct {
-	Value ManagersManagerNameTasksGetStatus
-	Set   bool
-}
-
-// IsSet returns true if OptManagersManagerNameTasksGetStatus was set.
-func (o OptManagersManagerNameTasksGetStatus) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptManagersManagerNameTasksGetStatus) Reset() {
-	var v ManagersManagerNameTasksGetStatus
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptManagersManagerNameTasksGetStatus) SetTo(v ManagersManagerNameTasksGetStatus) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptManagersManagerNameTasksGetStatus) Get() (v ManagersManagerNameTasksGetStatus, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptManagersManagerNameTasksGetStatus) Or(d ManagersManagerNameTasksGetStatus) ManagersManagerNameTasksGetStatus {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
 	return OptString{
@@ -518,6 +265,52 @@ func (o OptString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTasksGetStatus returns new OptTasksGetStatus with value set to v.
+func NewOptTasksGetStatus(v TasksGetStatus) OptTasksGetStatus {
+	return OptTasksGetStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTasksGetStatus is optional TasksGetStatus.
+type OptTasksGetStatus struct {
+	Value TasksGetStatus
+	Set   bool
+}
+
+// IsSet returns true if OptTasksGetStatus was set.
+func (o OptTasksGetStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTasksGetStatus) Reset() {
+	var v TasksGetStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTasksGetStatus) SetTo(v TasksGetStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTasksGetStatus) Get() (v TasksGetStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTasksGetStatus) Or(d TasksGetStatus) TasksGetStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -663,6 +456,140 @@ func (s *TaskCreateMultipart) SetFiles(val []ht.MultipartFile) {
 	s.Files = val
 }
 
+type TaskDeleteInternalServerError ErrorResponse
+
+func (*TaskDeleteInternalServerError) taskDeleteRes() {}
+
+// TaskDeleteNoContent is response for TaskDelete operation.
+type TaskDeleteNoContent struct{}
+
+func (*TaskDeleteNoContent) taskDeleteRes() {}
+
+type TaskDeleteNotFound ErrorResponse
+
+func (*TaskDeleteNotFound) taskDeleteRes() {}
+
+type TaskFileDeleteInternalServerError ErrorResponse
+
+func (*TaskFileDeleteInternalServerError) taskFileDeleteRes() {}
+
+// TaskFileDeleteNoContent is response for TaskFileDelete operation.
+type TaskFileDeleteNoContent struct{}
+
+func (*TaskFileDeleteNoContent) taskFileDeleteRes() {}
+
+type TaskFileDeleteNotFound ErrorResponse
+
+func (*TaskFileDeleteNotFound) taskFileDeleteRes() {}
+
+type TaskFileGetInternalServerError ErrorResponse
+
+func (*TaskFileGetInternalServerError) taskFileGetRes() {}
+
+type TaskFileGetNotFound ErrorResponse
+
+func (*TaskFileGetNotFound) taskFileGetRes() {}
+
+type TaskFileGetOK struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s TaskFileGetOK) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*TaskFileGetOK) taskFileGetRes() {}
+
+type TaskFilePostBadRequest ErrorResponse
+
+func (*TaskFilePostBadRequest) taskFilePostRes() {}
+
+type TaskFilePostConflict ErrorResponse
+
+func (*TaskFilePostConflict) taskFilePostRes() {}
+
+type TaskFilePostInternalServerError ErrorResponse
+
+func (*TaskFilePostInternalServerError) taskFilePostRes() {}
+
+type TaskFilePostReq struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s TaskFilePostReq) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+type TaskFilePutBadRequest ErrorResponse
+
+func (*TaskFilePutBadRequest) taskFilePutRes() {}
+
+type TaskFilePutInternalServerError ErrorResponse
+
+func (*TaskFilePutInternalServerError) taskFilePutRes() {}
+
+type TaskFilePutReq struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s TaskFilePutReq) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+type TaskGetInternalServerError ErrorResponse
+
+func (*TaskGetInternalServerError) taskGetRes() {}
+
+type TaskGetNotFound ErrorResponse
+
+func (*TaskGetNotFound) taskGetRes() {}
+
+type TaskPatchBadRequest ErrorResponse
+
+func (*TaskPatchBadRequest) taskPatchRes() {}
+
+type TaskPatchConflict ErrorResponse
+
+func (*TaskPatchConflict) taskPatchRes() {}
+
+type TaskPatchInternalServerError ErrorResponse
+
+func (*TaskPatchInternalServerError) taskPatchRes() {}
+
+type TaskPatchNotFound ErrorResponse
+
+func (*TaskPatchNotFound) taskPatchRes() {}
+
+type TaskPostBadRequest ErrorResponse
+
+func (*TaskPostBadRequest) taskPostRes() {}
+
+type TaskPostConflict ErrorResponse
+
+func (*TaskPostConflict) taskPostRes() {}
+
+type TaskPostInternalServerError ErrorResponse
+
+func (*TaskPostInternalServerError) taskPostRes() {}
+
 // Ref: #/components/schemas/TaskUpdate
 type TaskUpdate struct {
 	// Статус задачи.
@@ -767,8 +694,8 @@ func (s *TaskWithFiles) SetFiles(val Files) {
 	s.Files = val
 }
 
-func (*TaskWithFiles) managersManagerNameTasksContractNameGetRes()   {}
-func (*TaskWithFiles) managersManagerNameTasksContractNamePatchRes() {}
+func (*TaskWithFiles) taskGetRes()   {}
+func (*TaskWithFiles) taskPatchRes() {}
 
 // TaskWithFilesHeaders wraps TaskWithFiles with response headers.
 type TaskWithFilesHeaders struct {
@@ -796,8 +723,61 @@ func (s *TaskWithFilesHeaders) SetResponse(val TaskWithFiles) {
 	s.Response = val
 }
 
-func (*TaskWithFilesHeaders) managersManagerNameTasksPostRes() {}
+func (*TaskWithFilesHeaders) taskPostRes() {}
 
 type Tasks []Task
 
-func (*Tasks) managersManagerNameTasksGetRes() {}
+func (*Tasks) tasksGetRes() {}
+
+type TasksGetBadRequest ErrorResponse
+
+func (*TasksGetBadRequest) tasksGetRes() {}
+
+type TasksGetInternalServerError ErrorResponse
+
+func (*TasksGetInternalServerError) tasksGetRes() {}
+
+type TasksGetNotFound ErrorResponse
+
+func (*TasksGetNotFound) tasksGetRes() {}
+
+type TasksGetStatus string
+
+const (
+	TasksGetStatusActive    TasksGetStatus = "active"
+	TasksGetStatusCompleted TasksGetStatus = "completed"
+)
+
+// AllValues returns all TasksGetStatus values.
+func (TasksGetStatus) AllValues() []TasksGetStatus {
+	return []TasksGetStatus{
+		TasksGetStatusActive,
+		TasksGetStatusCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TasksGetStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case TasksGetStatusActive:
+		return []byte(s), nil
+	case TasksGetStatusCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TasksGetStatus) UnmarshalText(data []byte) error {
+	switch TasksGetStatus(data) {
+	case TasksGetStatusActive:
+		*s = TasksGetStatusActive
+		return nil
+	case TasksGetStatusCompleted:
+		*s = TasksGetStatusCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}

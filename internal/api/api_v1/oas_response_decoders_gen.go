@@ -162,11 +162,11 @@ func decodeManagersGetResponse(resp *http.Response) (res ManagersGetRes, _ error
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNameDeleteResponse(resp *http.Response) (res ManagersManagerNameTasksContractNameDeleteRes, _ error) {
+func decodeTaskDeleteResponse(resp *http.Response) (res TaskDeleteRes, _ error) {
 	switch resp.StatusCode {
 	case 204:
 		// Code 204.
-		return &ManagersManagerNameTasksContractNameDeleteNoContent{}, nil
+		return &TaskDeleteNoContent{}, nil
 	case 404:
 		// Code 404.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
@@ -181,7 +181,7 @@ func decodeManagersManagerNameTasksContractNameDeleteResponse(resp *http.Respons
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameDeleteNotFound
+			var response TaskDeleteNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -225,7 +225,7 @@ func decodeManagersManagerNameTasksContractNameDeleteResponse(resp *http.Respons
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameDeleteInternalServerError
+			var response TaskDeleteInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -310,11 +310,11 @@ func decodeManagersManagerNameTasksContractNameDeleteResponse(resp *http.Respons
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNameFilenameDeleteResponse(resp *http.Response) (res ManagersManagerNameTasksContractNameFilenameDeleteRes, _ error) {
+func decodeTaskFileDeleteResponse(resp *http.Response) (res TaskFileDeleteRes, _ error) {
 	switch resp.StatusCode {
 	case 204:
 		// Code 204.
-		return &ManagersManagerNameTasksContractNameFilenameDeleteNoContent{}, nil
+		return &TaskFileDeleteNoContent{}, nil
 	case 404:
 		// Code 404.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
@@ -329,7 +329,7 @@ func decodeManagersManagerNameTasksContractNameFilenameDeleteResponse(resp *http
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenameDeleteNotFound
+			var response TaskFileDeleteNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -373,7 +373,7 @@ func decodeManagersManagerNameTasksContractNameFilenameDeleteResponse(resp *http
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenameDeleteInternalServerError
+			var response TaskFileDeleteInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -458,7 +458,7 @@ func decodeManagersManagerNameTasksContractNameFilenameDeleteResponse(resp *http
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNameFilenameGetResponse(resp *http.Response) (res ManagersManagerNameTasksContractNameFilenameGetRes, _ error) {
+func decodeTaskFileGetResponse(resp *http.Response) (res TaskFileGetRes, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -474,7 +474,7 @@ func decodeManagersManagerNameTasksContractNameFilenameGetResponse(resp *http.Re
 				return res, err
 			}
 
-			response := ManagersManagerNameTasksContractNameFilenameGetOK{Data: bytes.NewReader(b)}
+			response := TaskFileGetOK{Data: bytes.NewReader(b)}
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
@@ -493,7 +493,7 @@ func decodeManagersManagerNameTasksContractNameFilenameGetResponse(resp *http.Re
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenameGetNotFound
+			var response TaskFileGetNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -537,7 +537,7 @@ func decodeManagersManagerNameTasksContractNameFilenameGetResponse(resp *http.Re
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenameGetInternalServerError
+			var response TaskFileGetInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -622,7 +622,7 @@ func decodeManagersManagerNameTasksContractNameFilenameGetResponse(resp *http.Re
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNameFilenamePostResponse(resp *http.Response) (res ManagersManagerNameTasksContractNameFilenamePostRes, _ error) {
+func decodeTaskFilePostResponse(resp *http.Response) (res TaskFilePostRes, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -682,7 +682,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePostResponse(resp *http.R
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenamePostBadRequest
+			var response TaskFilePostBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -726,7 +726,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePostResponse(resp *http.R
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenamePostConflict
+			var response TaskFilePostConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -770,7 +770,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePostResponse(resp *http.R
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenamePostInternalServerError
+			var response TaskFilePostInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -855,7 +855,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePostResponse(resp *http.R
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNameFilenamePutResponse(resp *http.Response) (res ManagersManagerNameTasksContractNameFilenamePutRes, _ error) {
+func decodeTaskFilePutResponse(resp *http.Response) (res TaskFilePutRes, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -915,7 +915,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePutResponse(resp *http.Re
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenamePutBadRequest
+			var response TaskFilePutBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -959,7 +959,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePutResponse(resp *http.Re
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameFilenamePutInternalServerError
+			var response TaskFilePutInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1044,7 +1044,7 @@ func decodeManagersManagerNameTasksContractNameFilenamePutResponse(resp *http.Re
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNameGetResponse(resp *http.Response) (res ManagersManagerNameTasksContractNameGetRes, _ error) {
+func decodeTaskGetResponse(resp *http.Response) (res TaskGetRes, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1104,7 +1104,7 @@ func decodeManagersManagerNameTasksContractNameGetResponse(resp *http.Response) 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameGetNotFound
+			var response TaskGetNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1148,7 +1148,7 @@ func decodeManagersManagerNameTasksContractNameGetResponse(resp *http.Response) 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNameGetInternalServerError
+			var response TaskGetInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1233,7 +1233,7 @@ func decodeManagersManagerNameTasksContractNameGetResponse(resp *http.Response) 
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksContractNamePatchResponse(resp *http.Response) (res ManagersManagerNameTasksContractNamePatchRes, _ error) {
+func decodeTaskPatchResponse(resp *http.Response) (res TaskPatchRes, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1293,7 +1293,7 @@ func decodeManagersManagerNameTasksContractNamePatchResponse(resp *http.Response
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNamePatchBadRequest
+			var response TaskPatchBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1337,7 +1337,7 @@ func decodeManagersManagerNameTasksContractNamePatchResponse(resp *http.Response
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNamePatchNotFound
+			var response TaskPatchNotFound
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1381,7 +1381,7 @@ func decodeManagersManagerNameTasksContractNamePatchResponse(resp *http.Response
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNamePatchConflict
+			var response TaskPatchConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1425,7 +1425,7 @@ func decodeManagersManagerNameTasksContractNamePatchResponse(resp *http.Response
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksContractNamePatchInternalServerError
+			var response TaskPatchInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1510,240 +1510,7 @@ func decodeManagersManagerNameTasksContractNamePatchResponse(resp *http.Response
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeManagersManagerNameTasksGetResponse(resp *http.Response) (res ManagersManagerNameTasksGetRes, _ error) {
-	switch resp.StatusCode {
-	case 200:
-		// Code 200.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response Tasks
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	case 400:
-		// Code 400.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ManagersManagerNameTasksGetBadRequest
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	case 404:
-		// Code 404.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ManagersManagerNameTasksGetNotFound
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	case 500:
-		// Code 500.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ManagersManagerNameTasksGetInternalServerError
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}
-	// Convenient error response.
-	defRes, err := func() (res *ErrorStatusCode, err error) {
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response ErrorResponse
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &ErrorStatusCode{
-				StatusCode: resp.StatusCode,
-				Response:   response,
-			}, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}()
-	if err != nil {
-		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
-	}
-	return res, errors.Wrap(defRes, "error")
-}
-
-func decodeManagersManagerNameTasksPostResponse(resp *http.Response) (res ManagersManagerNameTasksPostRes, _ error) {
+func decodeTaskPostResponse(resp *http.Response) (res TaskPostRes, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -1843,7 +1610,7 @@ func decodeManagersManagerNameTasksPostResponse(resp *http.Response) (res Manage
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksPostBadRequest
+			var response TaskPostBadRequest
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1887,7 +1654,7 @@ func decodeManagersManagerNameTasksPostResponse(resp *http.Response) (res Manage
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksPostConflict
+			var response TaskPostConflict
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1931,7 +1698,240 @@ func decodeManagersManagerNameTasksPostResponse(resp *http.Response) (res Manage
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response ManagersManagerNameTasksPostInternalServerError
+			var response TaskPostInternalServerError
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	// Convenient error response.
+	defRes, err := func() (res *ErrorStatusCode, err error) {
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ErrorResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &ErrorStatusCode{
+				StatusCode: resp.StatusCode,
+				Response:   response,
+			}, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}()
+	if err != nil {
+		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
+	}
+	return res, errors.Wrap(defRes, "error")
+}
+
+func decodeTasksGetResponse(resp *http.Response) (res TasksGetRes, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response Tasks
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 400:
+		// Code 400.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response TasksGetBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 404:
+		// Code 404.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response TasksGetNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	case 500:
+		// Code 500.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response TasksGetInternalServerError
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

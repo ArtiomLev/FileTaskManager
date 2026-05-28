@@ -48,15 +48,15 @@ func encodeManagersGetResponse(response ManagersGetRes, w http.ResponseWriter, s
 	}
 }
 
-func encodeManagersManagerNameTasksContractNameDeleteResponse(response ManagersManagerNameTasksContractNameDeleteRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskDeleteResponse(response TaskDeleteRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
-	case *ManagersManagerNameTasksContractNameDeleteNoContent:
+	case *TaskDeleteNoContent:
 		w.WriteHeader(204)
 		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameDeleteNotFound:
+	case *TaskDeleteNotFound:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
@@ -69,7 +69,7 @@ func encodeManagersManagerNameTasksContractNameDeleteResponse(response ManagersM
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameDeleteInternalServerError:
+	case *TaskDeleteInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -87,15 +87,15 @@ func encodeManagersManagerNameTasksContractNameDeleteResponse(response ManagersM
 	}
 }
 
-func encodeManagersManagerNameTasksContractNameFilenameDeleteResponse(response ManagersManagerNameTasksContractNameFilenameDeleteRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskFileDeleteResponse(response TaskFileDeleteRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
-	case *ManagersManagerNameTasksContractNameFilenameDeleteNoContent:
+	case *TaskFileDeleteNoContent:
 		w.WriteHeader(204)
 		span.SetStatus(codes.Ok, http.StatusText(204))
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenameDeleteNotFound:
+	case *TaskFileDeleteNotFound:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
@@ -108,7 +108,7 @@ func encodeManagersManagerNameTasksContractNameFilenameDeleteResponse(response M
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenameDeleteInternalServerError:
+	case *TaskFileDeleteInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -126,9 +126,9 @@ func encodeManagersManagerNameTasksContractNameFilenameDeleteResponse(response M
 	}
 }
 
-func encodeManagersManagerNameTasksContractNameFilenameGetResponse(response ManagersManagerNameTasksContractNameFilenameGetRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskFileGetResponse(response TaskFileGetRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
-	case *ManagersManagerNameTasksContractNameFilenameGetOK:
+	case *TaskFileGetOK:
 		w.Header().Set("Content-Type", "application/octet-stream")
 		w.WriteHeader(200)
 		span.SetStatus(codes.Ok, http.StatusText(200))
@@ -143,7 +143,7 @@ func encodeManagersManagerNameTasksContractNameFilenameGetResponse(response Mana
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenameGetNotFound:
+	case *TaskFileGetNotFound:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
@@ -156,7 +156,7 @@ func encodeManagersManagerNameTasksContractNameFilenameGetResponse(response Mana
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenameGetInternalServerError:
+	case *TaskFileGetInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -174,7 +174,7 @@ func encodeManagersManagerNameTasksContractNameFilenameGetResponse(response Mana
 	}
 }
 
-func encodeManagersManagerNameTasksContractNameFilenamePostResponse(response ManagersManagerNameTasksContractNameFilenamePostRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskFilePostResponse(response TaskFilePostRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *Files:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -189,7 +189,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePostResponse(response Man
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenamePostBadRequest:
+	case *TaskFilePostBadRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
@@ -202,7 +202,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePostResponse(response Man
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenamePostConflict:
+	case *TaskFilePostConflict:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(409)
 		span.SetStatus(codes.Error, http.StatusText(409))
@@ -215,7 +215,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePostResponse(response Man
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenamePostInternalServerError:
+	case *TaskFilePostInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -233,7 +233,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePostResponse(response Man
 	}
 }
 
-func encodeManagersManagerNameTasksContractNameFilenamePutResponse(response ManagersManagerNameTasksContractNameFilenamePutRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskFilePutResponse(response TaskFilePutRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *Files:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -248,7 +248,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePutResponse(response Mana
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenamePutBadRequest:
+	case *TaskFilePutBadRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
@@ -261,7 +261,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePutResponse(response Mana
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameFilenamePutInternalServerError:
+	case *TaskFilePutInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -279,7 +279,7 @@ func encodeManagersManagerNameTasksContractNameFilenamePutResponse(response Mana
 	}
 }
 
-func encodeManagersManagerNameTasksContractNameGetResponse(response ManagersManagerNameTasksContractNameGetRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskGetResponse(response TaskGetRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *TaskWithFiles:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -294,7 +294,7 @@ func encodeManagersManagerNameTasksContractNameGetResponse(response ManagersMana
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameGetNotFound:
+	case *TaskGetNotFound:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
@@ -307,7 +307,7 @@ func encodeManagersManagerNameTasksContractNameGetResponse(response ManagersMana
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNameGetInternalServerError:
+	case *TaskGetInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -325,7 +325,7 @@ func encodeManagersManagerNameTasksContractNameGetResponse(response ManagersMana
 	}
 }
 
-func encodeManagersManagerNameTasksContractNamePatchResponse(response ManagersManagerNameTasksContractNamePatchRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskPatchResponse(response TaskPatchRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *TaskWithFiles:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -340,7 +340,7 @@ func encodeManagersManagerNameTasksContractNamePatchResponse(response ManagersMa
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNamePatchBadRequest:
+	case *TaskPatchBadRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
@@ -353,7 +353,7 @@ func encodeManagersManagerNameTasksContractNamePatchResponse(response ManagersMa
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNamePatchNotFound:
+	case *TaskPatchNotFound:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
@@ -366,7 +366,7 @@ func encodeManagersManagerNameTasksContractNamePatchResponse(response ManagersMa
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNamePatchConflict:
+	case *TaskPatchConflict:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(409)
 		span.SetStatus(codes.Error, http.StatusText(409))
@@ -379,7 +379,7 @@ func encodeManagersManagerNameTasksContractNamePatchResponse(response ManagersMa
 
 		return nil
 
-	case *ManagersManagerNameTasksContractNamePatchInternalServerError:
+	case *TaskPatchInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))
@@ -397,66 +397,7 @@ func encodeManagersManagerNameTasksContractNamePatchResponse(response ManagersMa
 	}
 }
 
-func encodeManagersManagerNameTasksGetResponse(response ManagersManagerNameTasksGetRes, w http.ResponseWriter, span trace.Span) error {
-	switch response := response.(type) {
-	case *Tasks:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(200)
-		span.SetStatus(codes.Ok, http.StatusText(200))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
-	case *ManagersManagerNameTasksGetBadRequest:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
-	case *ManagersManagerNameTasksGetNotFound:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(404)
-		span.SetStatus(codes.Error, http.StatusText(404))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
-	case *ManagersManagerNameTasksGetInternalServerError:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(500)
-		span.SetStatus(codes.Error, http.StatusText(500))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
-	default:
-		return errors.Errorf("unexpected response type: %T", response)
-	}
-}
-
-func encodeManagersManagerNameTasksPostResponse(response ManagersManagerNameTasksPostRes, w http.ResponseWriter, span trace.Span) error {
+func encodeTaskPostResponse(response TaskPostRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *TaskWithFilesHeaders:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -491,7 +432,7 @@ func encodeManagersManagerNameTasksPostResponse(response ManagersManagerNameTask
 
 		return nil
 
-	case *ManagersManagerNameTasksPostBadRequest:
+	case *TaskPostBadRequest:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
@@ -504,7 +445,7 @@ func encodeManagersManagerNameTasksPostResponse(response ManagersManagerNameTask
 
 		return nil
 
-	case *ManagersManagerNameTasksPostConflict:
+	case *TaskPostConflict:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(409)
 		span.SetStatus(codes.Error, http.StatusText(409))
@@ -517,7 +458,66 @@ func encodeManagersManagerNameTasksPostResponse(response ManagersManagerNameTask
 
 		return nil
 
-	case *ManagersManagerNameTasksPostInternalServerError:
+	case *TaskPostInternalServerError:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(500)
+		span.SetStatus(codes.Error, http.StatusText(500))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	default:
+		return errors.Errorf("unexpected response type: %T", response)
+	}
+}
+
+func encodeTasksGetResponse(response TasksGetRes, w http.ResponseWriter, span trace.Span) error {
+	switch response := response.(type) {
+	case *Tasks:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(200)
+		span.SetStatus(codes.Ok, http.StatusText(200))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *TasksGetBadRequest:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(400)
+		span.SetStatus(codes.Error, http.StatusText(400))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *TasksGetNotFound:
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(404)
+		span.SetStatus(codes.Error, http.StatusText(404))
+
+		e := new(jx.Encoder)
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
+
+		return nil
+
+	case *TasksGetInternalServerError:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(500)
 		span.SetStatus(codes.Error, http.StatusText(500))

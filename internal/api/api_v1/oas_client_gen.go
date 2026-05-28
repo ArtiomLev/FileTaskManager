@@ -11,6 +11,7 @@ import (
 	"github.com/go-faster/errors"
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
+	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
@@ -26,68 +27,75 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// ManagersGet invokes GET /managers operation.
+	TasksInvoker
+}
+
+// TasksInvoker invokes operations described by OpenAPI v3 specification.
+//
+// x-gen-operation-group: Tasks
+type TasksInvoker interface {
+	// ManagersGet invokes ManagersGet operation.
 	//
 	// Возвращает список всех менеджеров задач сервера.
 	//
 	// GET /managers
 	ManagersGet(ctx context.Context) (ManagersGetRes, error)
-	// ManagersManagerNameTasksContractNameDelete invokes DELETE /managers/{managerName}/tasks/{contract}/{name} operation.
+	// TaskDelete invokes TaskDelete operation.
 	//
 	// Удаляет все файлы задачи вместе с папкой.
 	//
 	// DELETE /managers/{managerName}/tasks/{contract}/{name}
-	ManagersManagerNameTasksContractNameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameDeleteParams) (ManagersManagerNameTasksContractNameDeleteRes, error)
-	// ManagersManagerNameTasksContractNameFilenameDelete invokes DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskDelete(ctx context.Context, params TaskDeleteParams) (TaskDeleteRes, error)
+	// TaskFileDelete invokes TaskFileDelete operation.
 	//
 	// Удаляет файл с переданным именем из папки задачи.
 	//
 	// DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameDeleteParams) (ManagersManagerNameTasksContractNameFilenameDeleteRes, error)
-	// ManagersManagerNameTasksContractNameFilenameGet invokes GET /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskFileDelete(ctx context.Context, params TaskFileDeleteParams) (TaskFileDeleteRes, error)
+	// TaskFileGet invokes TaskFileGet operation.
 	//
 	// Возвращает файл с соответствующим названием из папки
 	// задания.
 	//
 	// GET /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenameGet(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameGetParams) (ManagersManagerNameTasksContractNameFilenameGetRes, error)
-	// ManagersManagerNameTasksContractNameFilenamePost invokes POST /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskFileGet(ctx context.Context, params TaskFileGetParams) (TaskFileGetRes, error)
+	// TaskFilePost invokes TaskFilePost operation.
 	//
 	// Загрузка файла в папку задачи.
 	//
 	// POST /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenamePost(ctx context.Context, request ManagersManagerNameTasksContractNameFilenamePostReq, params ManagersManagerNameTasksContractNameFilenamePostParams) (ManagersManagerNameTasksContractNameFilenamePostRes, error)
-	// ManagersManagerNameTasksContractNameFilenamePut invokes PUT /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+	TaskFilePost(ctx context.Context, request TaskFilePostReq, params TaskFilePostParams) (TaskFilePostRes, error)
+	// TaskFilePut invokes TaskFilePut operation.
 	//
 	// Загрузка файла в папку задачи. Заменяет существующий
 	// файл.
 	//
 	// PUT /managers/{managerName}/tasks/{contract}/{name}/{filename}
-	ManagersManagerNameTasksContractNameFilenamePut(ctx context.Context, request ManagersManagerNameTasksContractNameFilenamePutReq, params ManagersManagerNameTasksContractNameFilenamePutParams) (ManagersManagerNameTasksContractNameFilenamePutRes, error)
-	// ManagersManagerNameTasksContractNameGet invokes GET /managers/{managerName}/tasks/{contract}/{name} operation.
+	TaskFilePut(ctx context.Context, request TaskFilePutReq, params TaskFilePutParams) (TaskFilePutRes, error)
+	// TaskGet invokes TaskGet operation.
 	//
 	// Возвращает объект задачи вместе со списком файлов.
 	//
 	// GET /managers/{managerName}/tasks/{contract}/{name}
-	ManagersManagerNameTasksContractNameGet(ctx context.Context, params ManagersManagerNameTasksContractNameGetParams) (ManagersManagerNameTasksContractNameGetRes, error)
-	// ManagersManagerNameTasksContractNamePatch invokes PATCH /managers/{managerName}/tasks/{contract}/{name} operation.
+	TaskGet(ctx context.Context, params TaskGetParams) (TaskGetRes, error)
+	// TaskPatch invokes TaskPatch operation.
 	//
 	// Обновляет одно или несколько полей задачи.
 	//
 	// PATCH /managers/{managerName}/tasks/{contract}/{name}
-	ManagersManagerNameTasksContractNamePatch(ctx context.Context, request *TaskUpdate, params ManagersManagerNameTasksContractNamePatchParams) (ManagersManagerNameTasksContractNamePatchRes, error)
-	// ManagersManagerNameTasksGet invokes GET /managers/{managerName}/tasks operation.
-	//
-	// Возвращает список задач менеджера.
-	//
-	// GET /managers/{managerName}/tasks
-	ManagersManagerNameTasksGet(ctx context.Context, params ManagersManagerNameTasksGetParams) (ManagersManagerNameTasksGetRes, error)
-	// ManagersManagerNameTasksPost invokes POST /managers/{managerName}/tasks operation.
+	TaskPatch(ctx context.Context, request *TaskUpdate, params TaskPatchParams) (TaskPatchRes, error)
+	// TaskPost invokes TaskPost operation.
 	//
 	// Создаёт новую активную задачу в менеджере задач.
 	//
 	// POST /managers/{managerName}/tasks
-	ManagersManagerNameTasksPost(ctx context.Context, request *TaskCreateMultipart, params ManagersManagerNameTasksPostParams) (ManagersManagerNameTasksPostRes, error)
+	TaskPost(ctx context.Context, request *TaskCreateMultipart, params TaskPostParams) (TaskPostRes, error)
+	// TasksGet invokes TasksGet operation.
+	//
+	// Возвращает список задач менеджера.
+	//
+	// GET /managers/{managerName}/tasks
+	TasksGet(ctx context.Context, params TasksGetParams) (TasksGetRes, error)
 }
 
 // Client implements OAS client.
@@ -129,7 +137,7 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// ManagersGet invokes GET /managers operation.
+// ManagersGet invokes ManagersGet operation.
 //
 // Возвращает список всех менеджеров задач сервера.
 //
@@ -141,6 +149,7 @@ func (c *Client) ManagersGet(ctx context.Context) (ManagersGetRes, error) {
 
 func (c *Client) sendManagersGet(ctx context.Context) (res ManagersGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("ManagersGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.URLTemplateKey.String("/managers"),
 	}
@@ -202,18 +211,19 @@ func (c *Client) sendManagersGet(ctx context.Context) (res ManagersGetRes, err e
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNameDelete invokes DELETE /managers/{managerName}/tasks/{contract}/{name} operation.
+// TaskDelete invokes TaskDelete operation.
 //
 // Удаляет все файлы задачи вместе с папкой.
 //
 // DELETE /managers/{managerName}/tasks/{contract}/{name}
-func (c *Client) ManagersManagerNameTasksContractNameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameDeleteParams) (ManagersManagerNameTasksContractNameDeleteRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNameDelete(ctx, params)
+func (c *Client) TaskDelete(ctx context.Context, params TaskDeleteParams) (TaskDeleteRes, error) {
+	res, err := c.sendTaskDelete(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameDeleteParams) (res ManagersManagerNameTasksContractNameDeleteRes, err error) {
+func (c *Client) sendTaskDelete(ctx context.Context, params TaskDeleteParams) (res TaskDeleteRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskDelete"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}"),
 	}
@@ -231,7 +241,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameDelete(ctx context.Cont
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNameDeleteOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskDeleteOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -323,7 +333,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameDelete(ctx context.Cont
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNameDeleteResponse(resp)
+	result, err := decodeTaskDeleteResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -331,18 +341,19 @@ func (c *Client) sendManagersManagerNameTasksContractNameDelete(ctx context.Cont
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenameDelete invokes DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFileDelete invokes TaskFileDelete operation.
 //
 // Удаляет файл с переданным именем из папки задачи.
 //
 // DELETE /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (c *Client) ManagersManagerNameTasksContractNameFilenameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameDeleteParams) (ManagersManagerNameTasksContractNameFilenameDeleteRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNameFilenameDelete(ctx, params)
+func (c *Client) TaskFileDelete(ctx context.Context, params TaskFileDeleteParams) (TaskFileDeleteRes, error) {
+	res, err := c.sendTaskFileDelete(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNameFilenameDelete(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameDeleteParams) (res ManagersManagerNameTasksContractNameFilenameDeleteRes, err error) {
+func (c *Client) sendTaskFileDelete(ctx context.Context, params TaskFileDeleteParams) (res TaskFileDeleteRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFileDelete"),
 		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -360,7 +371,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenameDelete(ctx cont
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNameFilenameDeleteOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskFileDeleteOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -471,7 +482,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenameDelete(ctx cont
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNameFilenameDeleteResponse(resp)
+	result, err := decodeTaskFileDeleteResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -479,19 +490,20 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenameDelete(ctx cont
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenameGet invokes GET /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFileGet invokes TaskFileGet operation.
 //
 // Возвращает файл с соответствующим названием из папки
 // задания.
 //
 // GET /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (c *Client) ManagersManagerNameTasksContractNameFilenameGet(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameGetParams) (ManagersManagerNameTasksContractNameFilenameGetRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNameFilenameGet(ctx, params)
+func (c *Client) TaskFileGet(ctx context.Context, params TaskFileGetParams) (TaskFileGetRes, error) {
+	res, err := c.sendTaskFileGet(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNameFilenameGet(ctx context.Context, params ManagersManagerNameTasksContractNameFilenameGetParams) (res ManagersManagerNameTasksContractNameFilenameGetRes, err error) {
+func (c *Client) sendTaskFileGet(ctx context.Context, params TaskFileGetParams) (res TaskFileGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFileGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -509,7 +521,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenameGet(ctx context
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNameFilenameGetOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskFileGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -620,7 +632,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenameGet(ctx context
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNameFilenameGetResponse(resp)
+	result, err := decodeTaskFileGetResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -628,18 +640,19 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenameGet(ctx context
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenamePost invokes POST /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFilePost invokes TaskFilePost operation.
 //
 // Загрузка файла в папку задачи.
 //
 // POST /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (c *Client) ManagersManagerNameTasksContractNameFilenamePost(ctx context.Context, request ManagersManagerNameTasksContractNameFilenamePostReq, params ManagersManagerNameTasksContractNameFilenamePostParams) (ManagersManagerNameTasksContractNameFilenamePostRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNameFilenamePost(ctx, request, params)
+func (c *Client) TaskFilePost(ctx context.Context, request TaskFilePostReq, params TaskFilePostParams) (TaskFilePostRes, error) {
+	res, err := c.sendTaskFilePost(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNameFilenamePost(ctx context.Context, request ManagersManagerNameTasksContractNameFilenamePostReq, params ManagersManagerNameTasksContractNameFilenamePostParams) (res ManagersManagerNameTasksContractNameFilenamePostRes, err error) {
+func (c *Client) sendTaskFilePost(ctx context.Context, request TaskFilePostReq, params TaskFilePostParams) (res TaskFilePostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFilePost"),
 		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -657,7 +670,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePost(ctx contex
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNameFilenamePostOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskFilePostOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -758,7 +771,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePost(ctx contex
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeManagersManagerNameTasksContractNameFilenamePostRequest(request, r); err != nil {
+	if err := encodeTaskFilePostRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -771,7 +784,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePost(ctx contex
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNameFilenamePostResponse(resp)
+	result, err := decodeTaskFilePostResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -779,19 +792,20 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePost(ctx contex
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNameFilenamePut invokes PUT /managers/{managerName}/tasks/{contract}/{name}/{filename} operation.
+// TaskFilePut invokes TaskFilePut operation.
 //
 // Загрузка файла в папку задачи. Заменяет существующий
 // файл.
 //
 // PUT /managers/{managerName}/tasks/{contract}/{name}/{filename}
-func (c *Client) ManagersManagerNameTasksContractNameFilenamePut(ctx context.Context, request ManagersManagerNameTasksContractNameFilenamePutReq, params ManagersManagerNameTasksContractNameFilenamePutParams) (ManagersManagerNameTasksContractNameFilenamePutRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNameFilenamePut(ctx, request, params)
+func (c *Client) TaskFilePut(ctx context.Context, request TaskFilePutReq, params TaskFilePutParams) (TaskFilePutRes, error) {
+	res, err := c.sendTaskFilePut(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNameFilenamePut(ctx context.Context, request ManagersManagerNameTasksContractNameFilenamePutReq, params ManagersManagerNameTasksContractNameFilenamePutParams) (res ManagersManagerNameTasksContractNameFilenamePutRes, err error) {
+func (c *Client) sendTaskFilePut(ctx context.Context, request TaskFilePutReq, params TaskFilePutParams) (res TaskFilePutRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskFilePut"),
 		semconv.HTTPRequestMethodKey.String("PUT"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}/{filename}"),
 	}
@@ -809,7 +823,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePut(ctx context
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNameFilenamePutOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskFilePutOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -910,7 +924,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePut(ctx context
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeManagersManagerNameTasksContractNameFilenamePutRequest(request, r); err != nil {
+	if err := encodeTaskFilePutRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -923,7 +937,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePut(ctx context
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNameFilenamePutResponse(resp)
+	result, err := decodeTaskFilePutResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -931,18 +945,19 @@ func (c *Client) sendManagersManagerNameTasksContractNameFilenamePut(ctx context
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNameGet invokes GET /managers/{managerName}/tasks/{contract}/{name} operation.
+// TaskGet invokes TaskGet operation.
 //
 // Возвращает объект задачи вместе со списком файлов.
 //
 // GET /managers/{managerName}/tasks/{contract}/{name}
-func (c *Client) ManagersManagerNameTasksContractNameGet(ctx context.Context, params ManagersManagerNameTasksContractNameGetParams) (ManagersManagerNameTasksContractNameGetRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNameGet(ctx, params)
+func (c *Client) TaskGet(ctx context.Context, params TaskGetParams) (TaskGetRes, error) {
+	res, err := c.sendTaskGet(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNameGet(ctx context.Context, params ManagersManagerNameTasksContractNameGetParams) (res ManagersManagerNameTasksContractNameGetRes, err error) {
+func (c *Client) sendTaskGet(ctx context.Context, params TaskGetParams) (res TaskGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}"),
 	}
@@ -960,7 +975,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameGet(ctx context.Context
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNameGetOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1052,7 +1067,7 @@ func (c *Client) sendManagersManagerNameTasksContractNameGet(ctx context.Context
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNameGetResponse(resp)
+	result, err := decodeTaskGetResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1060,18 +1075,19 @@ func (c *Client) sendManagersManagerNameTasksContractNameGet(ctx context.Context
 	return result, nil
 }
 
-// ManagersManagerNameTasksContractNamePatch invokes PATCH /managers/{managerName}/tasks/{contract}/{name} operation.
+// TaskPatch invokes TaskPatch operation.
 //
 // Обновляет одно или несколько полей задачи.
 //
 // PATCH /managers/{managerName}/tasks/{contract}/{name}
-func (c *Client) ManagersManagerNameTasksContractNamePatch(ctx context.Context, request *TaskUpdate, params ManagersManagerNameTasksContractNamePatchParams) (ManagersManagerNameTasksContractNamePatchRes, error) {
-	res, err := c.sendManagersManagerNameTasksContractNamePatch(ctx, request, params)
+func (c *Client) TaskPatch(ctx context.Context, request *TaskUpdate, params TaskPatchParams) (TaskPatchRes, error) {
+	res, err := c.sendTaskPatch(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksContractNamePatch(ctx context.Context, request *TaskUpdate, params ManagersManagerNameTasksContractNamePatchParams) (res ManagersManagerNameTasksContractNamePatchRes, err error) {
+func (c *Client) sendTaskPatch(ctx context.Context, request *TaskUpdate, params TaskPatchParams) (res TaskPatchRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskPatch"),
 		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks/{contract}/{name}"),
 	}
@@ -1089,7 +1105,7 @@ func (c *Client) sendManagersManagerNameTasksContractNamePatch(ctx context.Conte
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksContractNamePatchOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskPatchOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1171,7 +1187,7 @@ func (c *Client) sendManagersManagerNameTasksContractNamePatch(ctx context.Conte
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeManagersManagerNameTasksContractNamePatchRequest(request, r); err != nil {
+	if err := encodeTaskPatchRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -1184,7 +1200,7 @@ func (c *Client) sendManagersManagerNameTasksContractNamePatch(ctx context.Conte
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksContractNamePatchResponse(resp)
+	result, err := decodeTaskPatchResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1192,18 +1208,115 @@ func (c *Client) sendManagersManagerNameTasksContractNamePatch(ctx context.Conte
 	return result, nil
 }
 
-// ManagersManagerNameTasksGet invokes GET /managers/{managerName}/tasks operation.
+// TaskPost invokes TaskPost operation.
+//
+// Создаёт новую активную задачу в менеджере задач.
+//
+// POST /managers/{managerName}/tasks
+func (c *Client) TaskPost(ctx context.Context, request *TaskCreateMultipart, params TaskPostParams) (TaskPostRes, error) {
+	res, err := c.sendTaskPost(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTaskPost(ctx context.Context, request *TaskCreateMultipart, params TaskPostParams) (res TaskPostRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TaskPost"),
+		semconv.HTTPRequestMethodKey.String("POST"),
+		semconv.URLTemplateKey.String("/managers/{managerName}/tasks"),
+	}
+	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, TaskPostOperation,
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/managers/"
+	{
+		// Encode "managerName" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "managerName",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ManagerName))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTaskPostRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeTaskPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TasksGet invokes TasksGet operation.
 //
 // Возвращает список задач менеджера.
 //
 // GET /managers/{managerName}/tasks
-func (c *Client) ManagersManagerNameTasksGet(ctx context.Context, params ManagersManagerNameTasksGetParams) (ManagersManagerNameTasksGetRes, error) {
-	res, err := c.sendManagersManagerNameTasksGet(ctx, params)
+func (c *Client) TasksGet(ctx context.Context, params TasksGetParams) (TasksGetRes, error) {
+	res, err := c.sendTasksGet(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendManagersManagerNameTasksGet(ctx context.Context, params ManagersManagerNameTasksGetParams) (res ManagersManagerNameTasksGetRes, err error) {
+func (c *Client) sendTasksGet(ctx context.Context, params TasksGetParams) (res TasksGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("TasksGet"),
 		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.URLTemplateKey.String("/managers/{managerName}/tasks"),
 	}
@@ -1221,7 +1334,7 @@ func (c *Client) sendManagersManagerNameTasksGet(ctx context.Context, params Man
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksGetOperation,
+	ctx, span := c.cfg.Tracer.Start(ctx, TasksGetOperation,
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -1314,102 +1427,7 @@ func (c *Client) sendManagersManagerNameTasksGet(ctx context.Context, params Man
 	defer body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksGetResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ManagersManagerNameTasksPost invokes POST /managers/{managerName}/tasks operation.
-//
-// Создаёт новую активную задачу в менеджере задач.
-//
-// POST /managers/{managerName}/tasks
-func (c *Client) ManagersManagerNameTasksPost(ctx context.Context, request *TaskCreateMultipart, params ManagersManagerNameTasksPostParams) (ManagersManagerNameTasksPostRes, error) {
-	res, err := c.sendManagersManagerNameTasksPost(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendManagersManagerNameTasksPost(ctx context.Context, request *TaskCreateMultipart, params ManagersManagerNameTasksPostParams) (res ManagersManagerNameTasksPostRes, err error) {
-	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPRequestMethodKey.String("POST"),
-		semconv.URLTemplateKey.String("/managers/{managerName}/tasks"),
-	}
-	otelAttrs = append(otelAttrs, c.cfg.Attributes...)
-
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		// Use floating point division here for higher precision (instead of Millisecond method).
-		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(elapsedDuration)/float64(time.Millisecond), metric.WithAttributes(otelAttrs...))
-	}()
-
-	// Increment request counter.
-	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
-
-	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, ManagersManagerNameTasksPostOperation,
-		trace.WithAttributes(otelAttrs...),
-		clientSpanKind,
-	)
-	// Track stage for error reporting.
-	var stage string
-	defer func() {
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
-		}
-		span.End()
-	}()
-
-	stage = "BuildURL"
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/managers/"
-	{
-		// Encode "managerName" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "managerName",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ManagerName))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/tasks"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	stage = "EncodeRequest"
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeManagersManagerNameTasksPostRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	stage = "SendRequest"
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer body.Close()
-
-	stage = "DecodeResponse"
-	result, err := decodeManagersManagerNameTasksPostResponse(resp)
+	result, err := decodeTasksGetResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

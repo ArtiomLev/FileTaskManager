@@ -5,38 +5,38 @@ type ManagersGetRes interface {
 	managersGetRes()
 }
 
-type ManagersManagerNameTasksContractNameDeleteRes interface {
-	managersManagerNameTasksContractNameDeleteRes()
+type TaskDeleteRes interface {
+	taskDeleteRes()
 }
 
-type ManagersManagerNameTasksContractNameFilenameDeleteRes interface {
-	managersManagerNameTasksContractNameFilenameDeleteRes()
+type TaskFileDeleteRes interface {
+	taskFileDeleteRes()
 }
 
-type ManagersManagerNameTasksContractNameFilenameGetRes interface {
-	managersManagerNameTasksContractNameFilenameGetRes()
+type TaskFileGetRes interface {
+	taskFileGetRes()
 }
 
-type ManagersManagerNameTasksContractNameFilenamePostRes interface {
-	managersManagerNameTasksContractNameFilenamePostRes()
+type TaskFilePostRes interface {
+	taskFilePostRes()
 }
 
-type ManagersManagerNameTasksContractNameFilenamePutRes interface {
-	managersManagerNameTasksContractNameFilenamePutRes()
+type TaskFilePutRes interface {
+	taskFilePutRes()
 }
 
-type ManagersManagerNameTasksContractNameGetRes interface {
-	managersManagerNameTasksContractNameGetRes()
+type TaskGetRes interface {
+	taskGetRes()
 }
 
-type ManagersManagerNameTasksContractNamePatchRes interface {
-	managersManagerNameTasksContractNamePatchRes()
+type TaskPatchRes interface {
+	taskPatchRes()
 }
 
-type ManagersManagerNameTasksGetRes interface {
-	managersManagerNameTasksGetRes()
+type TaskPostRes interface {
+	taskPostRes()
 }
 
-type ManagersManagerNameTasksPostRes interface {
-	managersManagerNameTasksPostRes()
+type TasksGetRes interface {
+	tasksGetRes()
 }

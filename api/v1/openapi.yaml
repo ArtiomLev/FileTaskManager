@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Менеджер задач лазерного станка
   description: Управление задачами для лазерного раскроечного станка в виде набора файлов управляющих программ
-  version: 0.1.0
+  version: 0.1.1
 servers:
   - url: 'http://localhost:8080/api/v1'
     description: Local dev
@@ -11,7 +11,9 @@ servers:
 
 paths:
   /managers:
+    x-ogen-operation-group: Tasks
     get:
+      operationId: ManagersGet
       summary: Получение списка менеджеров
       description: Возвращает список всех менеджеров задач сервера
       tags: [ Managers ]
@@ -28,6 +30,7 @@ paths:
           $ref: '#/components/responses/Error'
 
   /managers/{managerName}/tasks:
+    x-ogen-operation-group: Tasks
     parameters:
       - name: managerName
         in: path
@@ -36,6 +39,7 @@ paths:
           type: string
         description: Адресное имя менеджера
     get:
+      operationId: TasksGet
       summary: Получение списка задач
       description: Возвращает список задач менеджера
       tags: [ Tasks ]
@@ -67,6 +71,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
     post:
+      operationId: TaskPost
       summary: Создание новой задачи
       description: Создаёт новую активную задачу в менеджере задач
       tags: [ Tasks ]
@@ -99,6 +104,7 @@ paths:
           $ref: '#/components/responses/Error'
 
   /managers/{managerName}/tasks/{contract}/{name}:
+    x-ogen-operation-group: Tasks
     parameters:
       - name: managerName
         in: path
@@ -119,6 +125,7 @@ paths:
           type: string
         description: Имя задания
     get:
+      operationId: TaskGet
       summary: Получение задачи
       description: Возвращает объект задачи вместе со списком файлов
       tags: [ Tasks ]
@@ -136,6 +143,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
     patch:
+      operationId: TaskPatch
       summary: Частичное обновление задачи
       description: Обновляет одно или несколько полей задачи
       tags: [ Tasks ]
@@ -166,6 +174,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
     delete:
+      operationId: TaskDelete
       summary: Удалить задачу
       description: Удаляет все файлы задачи вместе с папкой
       tags: [ Tasks ]
@@ -181,6 +190,7 @@ paths:
           $ref: '#/components/responses/Error'
 
   /managers/{managerName}/tasks/{contract}/{name}/{filename}:
+    x-ogen-operation-group: Tasks
     parameters:
       - name: managerName
         in: path
@@ -207,6 +217,7 @@ paths:
           type: string
         description: Имя файла
     get:
+      operationId: TaskFileGet
       summary: Получение файла
       description: Возвращает файл с соответствующим названием из папки задания
       tags: [ Files ]
@@ -226,6 +237,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
     post:
+      operationId: TaskFilePost
       summary: Загрузка файла
       description: Загрузка файла в папку задачи
       tags: [ Files ]
@@ -252,6 +264,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
     put:
+      operationId: TaskFilePut
       summary: Загрузка файла с заменой
       description: Загрузка файла в папку задачи. Заменяет существующий файл.
       tags: [ Files ]
@@ -276,6 +289,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
     delete:
+      operationId: TaskFileDelete
       summary: Удалить файл
       description: Удаляет файл с переданным именем из папки задачи
       tags: [ Files ]
