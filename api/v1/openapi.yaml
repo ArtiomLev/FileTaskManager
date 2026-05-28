@@ -24,6 +24,8 @@ paths:
                 $ref: '#/components/schemas/Managers'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
 
   /managers/{managerName}/tasks:
     parameters:
@@ -62,6 +64,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
     post:
       summary: Создание новой задачи
       description: Создаёт новую активную задачу в менеджере задач
@@ -91,7 +95,8 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalError'
-
+        default:
+          $ref: '#/components/responses/Error'
 
   /managers/{managerName}/tasks/{contract}/{name}:
     parameters:
@@ -128,6 +133,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
     patch:
       summary: Частичное обновление задачи
       description: Обновляет одно или несколько полей задачи
@@ -156,6 +163,8 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
     delete:
       summary: Удалить задачу
       description: Удаляет все файлы задачи вместе с папкой
@@ -168,6 +177,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
 
   /managers/{managerName}/tasks/{contract}/{name}/{filename}:
     parameters:
@@ -212,6 +223,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
     post:
       summary: Загрузка файла
       description: Загрузка файла в папку задачи
@@ -236,6 +249,8 @@ paths:
           $ref: '#/components/responses/Conflict'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
     put:
       summary: Загрузка файла с заменой
       description: Загрузка файла в папку задачи. Заменяет существующий файл.
@@ -258,6 +273,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
     delete:
       summary: Удалить файл
       description: Удаляет файл с переданным именем из папки задачи
@@ -270,6 +287,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+        default:
+          $ref: '#/components/responses/Error'
 
 # ==================================================================================================
 
