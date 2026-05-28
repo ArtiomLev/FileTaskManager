@@ -2,6 +2,7 @@ package task
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -16,6 +17,13 @@ func (tsk *Task) moveTask(src, dst string, completed bool) error {
 	err = os.Rename(src, dst)
 	if err != nil {
 		return fmt.Errorf("failed to move task: %v", err)
+	}
+
+	// Cleanup
+	contract := filepath.Dir(src)
+	err = tsk.TaskManager.CleanupContractIfEmpty(contract)
+	if err != nil {
+		log.Printf("cannot cleanup contract %s: %v", filepath.Base(src), err)
 	}
 
 	tsk.Updated = time.Now().UTC()

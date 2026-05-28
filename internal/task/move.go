@@ -1,6 +1,7 @@
 package task
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -39,6 +40,13 @@ func (tsk *Task) Move(contract, name string) error {
 	err = os.Rename(oldPath, newPath)
 	if err != nil {
 		return err
+	}
+
+	// Cleanup
+	contractPath := filepath.Dir(oldPath)
+	err = tsk.TaskManager.CleanupContractIfEmpty(contractPath)
+	if err != nil {
+		log.Printf("cannot cleanup contract %s: %v", filepath.Base(oldPath), err)
 	}
 
 	// Update task fields
