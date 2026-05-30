@@ -130,6 +130,9 @@ func (tsk *Task) ReadFile(name string) (*os.File, error) {
 
 	file, err := os.Open(filePath)
 	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, ErrFileNotExists
+		}
 		return nil, fmt.Errorf("cannot open file: %w", err)
 	}
 
