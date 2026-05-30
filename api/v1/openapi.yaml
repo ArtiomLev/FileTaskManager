@@ -297,7 +297,7 @@ paths:
           $ref: '#/components/responses/Error'
     delete:
       operationId: TaskFileDelete
-      summary: Удалить файл
+      summary: Удаление файла
       description: Удаляет файл с переданным именем из папки задачи
       tags: [ Files ]
       responses:
