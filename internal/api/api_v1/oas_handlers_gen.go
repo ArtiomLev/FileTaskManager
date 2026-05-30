@@ -424,7 +424,7 @@ func (s *Server) handleTaskFileDeleteRequest(args [4]string, argsEscaped bool, w
 		mreq := middleware.Request{
 			Context:          ctx,
 			OperationName:    TaskFileDeleteOperation,
-			OperationSummary: "Удалить файл",
+			OperationSummary: "Удаление файла",
 			OperationID:      "TaskFileDelete",
 			Body:             nil,
 			RawBody:          rawBody,

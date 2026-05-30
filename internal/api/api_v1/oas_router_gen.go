@@ -535,7 +535,7 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									switch method {
 									case "DELETE":
 										r.name = TaskFileDeleteOperation
-										r.summary = "Удалить файл"
+										r.summary = "Удаление файла"
 										r.operationID = "TaskFileDelete"
 										r.operationGroup = "Tasks"
 										r.pathPattern = "/managers/{managerName}/tasks/{contract}/{name}/{filename}"
